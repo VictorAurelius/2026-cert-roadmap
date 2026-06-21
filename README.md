@@ -16,8 +16,11 @@
 .
 ├── CLAUDE.md                # Context cho Claude mỗi session (đọc đầu tiên)
 ├── README.md
+├── scripts/
+│   └── render-html.sh       # Render MD nguồn → HTML đẹp (qua html-anything CLI)
 ├── documents/
 │   ├── idea.md              # Tài liệu tổng hợp: links, resources, lộ trình
+│   ├── output/              # ⭐ Bản HTML người đọc (render ra — để học/ôn/in)
 │   └── progress/            # Tiến độ học (cập nhật liên tục)
 │       ├── tien-do.md       # Đang ở đâu: checklist, đếm ngược ngày thi, lịch ôn
 │       └── so-loi-sai.md    # Sổ lỗi sai — câu sai + chủ đề yếu
@@ -37,7 +40,8 @@
     │   ├── clone-resources.md    # Hướng dẫn clone repos
     │   ├── lo-trinh-hoc.md       # Lộ trình 12-15 tháng
     │   ├── tu-vung-tieng-anh.md  # Kế hoạch học từ vựng
-    │   └── ke-hoach-tuan.md      # Template kế hoạch tuần
+    │   ├── ke-hoach-tuan.md      # Template kế hoạch tuần
+    │   └── html-output-workflow.md  # Quy trình render HTML (html-anything)
     └── user-prompts/        # Lưu prompt gốc khởi tạo repo
 ```
 
@@ -68,6 +72,23 @@ Các lệnh nằm trong `.claude/commands/` — gõ `/` trong Claude Code để 
 | `/tien-do` | Review tiến độ + bước kế tiếp | `/tien-do` |
 | `/lich-su-sai [chủ đề?]` | Ghi/phân tích câu làm sai | `/lich-su-sai` |
 | `/flashcard [chủ đề]` | Xuất flashcard Anki (.csv) | `/flashcard java streams` |
+
+### Bước 4: Render tài liệu ra HTML đẹp (HTML-first)
+
+Repo theo hướng **HTML-first**: MD là nguồn, **HTML là bản để học/ôn/in**. Engine render là [`html-anything`](https://github.com/nexu-io/html-anything) — clone song song, reuse session `claude` sẵn ($0):
+
+```bash
+# Cài engine (1 lần)
+git clone https://github.com/nexu-io/html-anything ../html-anything
+cd ../html-anything && pnpm install --filter @html-anything/cli && pnpm -F @html-anything/cli build && cd -
+
+# Render MD → HTML đẹp (ra documents/output/)
+scripts/render-html.sh .claude/plans/lo-trinh-hoc.md doc-kami-parchment
+scripts/render-html.sh --auto documents/idea.md      # tự chọn template
+scripts/render-html.sh --all                          # render bộ mặc định
+```
+
+Chi tiết + map template ↔ artifact: [`.claude/plans/html-output-workflow.md`](.claude/plans/html-output-workflow.md). Bản render xem trong [`documents/output/`](documents/output/).
 
 ## Lộ Trình Tóm Tắt
 

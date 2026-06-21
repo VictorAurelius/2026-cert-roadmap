@@ -18,18 +18,21 @@ Học SQL trước (tạo đà) → Java (khó nhất) → Spring (cần nền J
 
 ## Bản đồ repo
 ```
-CLAUDE.md                    # File này — context cho mỗi session
+CLAUDE.md                    # File này — context cho mỗi session (PHẢI là MD)
 README.md                    # Tổng quan + hướng dẫn nhanh
+scripts/render-html.sh       # Render MD nguồn → HTML đẹp (qua html-anything CLI)
 documents/
 ├── idea.md                  # SOURCE OF TRUTH: links, sách, khóa học, repo theo từng cert
+├── output/                  # ⭐ Bản HTML người đọc (render ra — để học/ôn/in) — commit
 └── progress/                # Tiến độ học (LIVING DOCS — cập nhật liên tục)
     ├── tien-do.md           # Đang ở đâu: % checklist, đếm ngược ngày thi, lịch ôn
     └── so-loi-sai.md        # Sổ lỗi sai — câu làm sai + chủ đề yếu (ôn lại đúng chỗ)
 .claude/
-├── commands/                # Slash command DÙNG ĐƯỢC (/giai-thich, /on-tap...)
-├── plans/                   # Kế hoạch chi tiết (lộ trình, tuần, clone repo, từ vựng)
+├── commands/                # Slash command DÙNG ĐƯỢC (PHẢI là MD)
+├── plans/                   # Kế hoạch chi tiết (+ html-output-workflow.md)
 └── user-prompts/            # Lưu lại prompt gốc
 resources/                   # Repo học clone về — KHÔNG commit (đã .gitignore)
+../html-anything/            # Engine render HTML (repo NGOÀI, clone song song)
 ```
 
 ## Slash commands (trong `.claude/commands/`)
@@ -44,13 +47,22 @@ resources/                   # Repo học clone về — KHÔNG commit (đã .gi
 | `/lich-su-sai [chủ đề?]` | Ghi/phân tích câu làm sai vào sổ lỗi |
 | `/flashcard [chủ đề]` | Xuất flashcard Anki (.csv) để học spaced repetition |
 
+## Output HTML-first (engine: html-anything)
+Repo theo hướng **HTML-first**: **MD = nguồn/nháp, HTML = bản người đọc**. Tài liệu để học/ôn/in render ra HTML thiết kế đẹp; chỉ giữ MD ở **lớp harness bắt buộc** (file này + `.claude/commands/*.md` — Claude Code chỉ đọc đúng định dạng MD).
+
+- **Engine:** [`html-anything`](https://github.com/nexu-io/html-anything) CLI tại `../html-anything` (reuse session `claude` sẵn, $0).
+- **Render:** `scripts/render-html.sh <file.md> [template]` → ra `documents/output/<tên>.html`.
+- **Workflow + map template ↔ artifact:** `.claude/plans/html-output-workflow.md`.
+- Khi tạo nội dung học mới (qua command MD hoặc viết tay), bước cuối **render sang HTML** rồi để bản HTML trong `documents/output/` cho người đọc.
+
 ## Quy ước (rules nhẹ)
 1. **Living docs:** sau mỗi buổi học/mock exam, cập nhật `documents/progress/tien-do.md` (tick checklist) và ghi câu sai vào `so-loi-sai.md`.
-2. **Đề thi giả lập phải giống đề thật:** dùng đúng % phân bố chủ đề trong `.claude/commands/kiem-tra.md`; câu hỏi viết tiếng Anh, giải thích tiếng Việt.
-3. **Không commit `resources/`** — chỉ là tài liệu clone để tra cứu (đã .gitignore).
-4. **Một nguồn sự thật:** links/tài liệu chỉ sửa ở `documents/idea.md`, rồi đồng bộ ra README nếu cần — tránh lệch giữa nhiều file.
-5. **Kỷ luật ngày tháng:** khi sửa doc có dòng "Cập nhật:", set đúng ngày hiện tại.
-6. Repo cá nhân, nhẹ — **không** thêm CI/governance nặng; ưu tiên thứ trực tiếp giúp học.
+2. **HTML-first:** sản phẩm để đọc/ôn/in render ra HTML (`documents/output/`); MD chỉ giữ ở nguồn + lớp harness bắt buộc. Sửa MD nguồn rồi render lại, KHÔNG sửa tay file HTML.
+3. **Đề thi giả lập phải giống đề thật:** dùng đúng % phân bố chủ đề trong `.claude/commands/kiem-tra.md`; câu hỏi viết tiếng Anh, giải thích tiếng Việt.
+4. **Không commit `resources/`** — chỉ là tài liệu clone để tra cứu (đã .gitignore).
+5. **Một nguồn sự thật:** links/tài liệu chỉ sửa ở `documents/idea.md`, rồi đồng bộ ra README nếu cần — tránh lệch giữa nhiều file.
+6. **Kỷ luật ngày tháng:** khi sửa doc có dòng "Cập nhật:", set đúng ngày hiện tại.
+7. Repo cá nhân, nhẹ — **không** thêm CI/governance nặng; ưu tiên thứ trực tiếp giúp học.
 
 ## Khi bắt đầu một session
 1. Đọc `documents/progress/tien-do.md` để biết đang học cert nào, tuần mấy.
