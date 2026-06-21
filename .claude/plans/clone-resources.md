@@ -36,22 +36,18 @@ git clone https://github.com/SimonHGR/Java21CertStudy.git resources/java/java21-
 ### Oracle SQL (1Z0-071)
 
 ```bash
-# ⭐ PHẢI CÓ - Đầy đủ nhất, tài liệu + bài tập theo từng exam topic
-git clone https://github.com/Lewotobi/1Z0-071_Oracle_Database_SQL_Associate.git resources/sql/1z0-071-main
+# ⭐ PHẢI CÓ - Cập nhật mới, tổ chức theo folder từng chủ đề (exam topic)
+git clone https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate.git resources/sql/1z0-071-main
 
-# Cập nhật mới 02/2026, tổ chức theo folder từng chủ đề
-git clone https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate.git resources/sql/1z0-071-updated
-
-# Giải thích chi tiết + cộng đồng đóng góp
-git clone https://github.com/Zaanne/1Z0-071.git resources/sql/1z0-071-zaanne
-
-# Câu hỏi mẫu miễn phí
+# Câu hỏi mẫu miễn phí (dump questions)
 git clone https://github.com/aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions.git resources/sql/dump-questions
 ```
 
-> **Lưu ý (02/2026):** Các repo sau đã bị xóa hoặc set private, không clone được:
-> - ~~`Lewotobi/1Z0-071_Oracle_Database_SQL_Associate`~~ — không tồn tại
-> - ~~`Zaanne/1Z0-071`~~ — không tồn tại
+> **Lưu ý (đã xác minh 2026-06-22):** 2 repo SQL phổ biến cũ đã bị xóa / set private, KHÔNG còn clone được — đã loại khỏi danh sách:
+> - ~~`Lewotobi/1Z0-071_Oracle_Database_SQL_Associate`~~ — 404
+> - ~~`Zaanne/1Z0-071`~~ — 404
+>
+> `chatelao/...` thay thế làm repo SQL chính.
 
 ### Spring Professional (2V0-72.22)
 
@@ -79,7 +75,7 @@ git clone https://github.com/aketza-ayo/spring5-cert-study-notes.git resources/s
 ```bash
 # Chạy lệnh này nếu muốn clone nhanh 3 repos PHẢI CÓ
 git clone https://github.com/eh3rrera/ocpj21-book.git resources/java/ocpj21-book
-git clone https://github.com/Lewotobi/1Z0-071_Oracle_Database_SQL_Associate.git resources/sql/1z0-071-main
+git clone https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate.git resources/sql/1z0-071-main
 git clone https://github.com/davidarchanjo/spring-certified-developer-study-guide.git resources/spring/study-guide-main
 ```
 
@@ -109,7 +105,7 @@ ls resources/spring/study-guide-main/
 
 | Tháng | Clone ngay | Ghi chú |
 |-------|-----------|---------|
-| 1-3 (SQL) | `1z0-071-main`, `1z0-071-updated` | Học SQL trước |
+| 1-3 (SQL) | `1z0-071-main` (chatelao), `dump-questions` | Học SQL trước |
 | 4-9 (Java) | `ocpj21-book`, `java-21-certification` | Java là khó nhất |
 | 10-13 (Spring) | `study-guide-main`, `spring-cert-notes` | Cần Java vững trước |
 

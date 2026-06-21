@@ -97,10 +97,10 @@
 
 | Repo | Mô tả |
 |------|--------|
-| ⭐ [Lewotobi/1Z0-071_Oracle_Database_SQL_Associate](https://github.com/Lewotobi/1Z0-071_Oracle_Database_SQL_Associate) | Đầy đủ nhất - Tài liệu + bài tập theo từng exam topic |
-| [chatelao/1z0-071_Oracle_Database_SQL_Associate](https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate) | Cập nhật mới (02/2026), tổ chức theo folder từng chủ đề |
-| [Zaanne/1Z0-071](https://github.com/Zaanne/1Z0-071) | Giải thích chi tiết + cộng đồng đóng góp |
-| [aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions](https://github.com/aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions) | Câu hỏi mẫu miễn phí |
+| ⭐ [chatelao/1z0-071_Oracle_Database_SQL_Associate](https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate) | Đầy đủ + cập nhật mới, tổ chức theo folder từng exam topic — repo SQL chính |
+| [aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions](https://github.com/aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions) | Câu hỏi mẫu (dump) miễn phí |
+
+> ⚠️ Đã xác minh 2026-06-22: `Lewotobi/1Z0-071_...` và `Zaanne/1Z0-071` đã bị xóa (404) — đã thay bằng `chatelao/...`.
 
 ### Tài liệu miễn phí
 
@@ -172,7 +172,7 @@
 
 ```bash
 git clone https://github.com/eh3rrera/ocpj21-book.git
-git clone https://github.com/Lewotobi/1Z0-071_Oracle_Database_SQL_Associate.git
+git clone https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate.git
 git clone https://github.com/davidarchanjo/spring-certified-developer-study-guide.git
 ```
 
@@ -215,4 +215,4 @@ Tháng 10-13 ➜  Ôn & thi Spring Professional — cần nền Java vững từ
 
 ---
 
-*Cập nhật: Tháng 2/2026*
+*Cập nhật: 2026-06-22*
