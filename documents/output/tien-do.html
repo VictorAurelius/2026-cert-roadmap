@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng Điều Khiển Ôn Thi · Living Doc</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+        display: ['Manrope', 'Inter', 'Noto Sans SC', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        ink: '#0a0a0a',
+        paper: '#fafafa',
+        sql: '#e11d48',
+        java: '#d97706',
+        spring: '#16a34a',
+        brand: '#4f46e5',
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background-color: #fafafa; }
+  ::selection { background: #c7d2fe; color: #1e1b4b; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { animation: fadeUp .6s cubic-bezier(.16,.84,.44,1) both; }
+  @keyframes pulseDot { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.35; transform:scale(.82);} }
+  .live-dot { animation: pulseDot 1.8s ease-in-out infinite; }
+  @keyframes drawLine { from { stroke-dashoffset: 1200; } to { stroke-dashoffset: 0; } }
+  .draw-line { stroke-dasharray: 1200; animation: drawLine 1.8s ease-out .3s both; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(90deg); }
+  .chev { transition: transform .25s ease; }
+  .zebra tbody tr:nth-child(even) { background: #fcfcfd; }
+  .zebra tbody tr:hover { background: #f5f3ff; }
+  .scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 99px; }
+</style>
+</head>
+<body class="font-sans text-ink antialiased">
+
+<!-- ===================== HEADER ===================== -->
+<header class="sticky top-0 z-30 border-b border-gray-200 bg-paper/85 backdrop-blur-md">
+  <div class="mx-auto max-w-7xl px-5 py-3.5 flex flex-wrap items-center gap-x-4 gap-y-2">
+    <div class="flex items-center gap-3 min-w-0">
+      <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand text-white shadow-sm">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <div class="min-w-0">
+        <h1 class="font-display text-[15px] sm:text-base font-extrabold tracking-tight leading-tight truncate">Bảng Điều Khiển Ôn Thi</h1>
+        <p class="text-[12px] text-gray-500 leading-tight truncate">Hành trình 3 chứng chỉ Oracle &amp; Spring · Living Doc</p>
+      </div>
+    </div>
+
+    <div class="ml-auto flex items-center gap-2.5 text-[12px]">
+      <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 font-medium text-emerald-700">
+        <span class="live-dot h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Living Doc · đồng bộ liên tục
+      </span>
+      <span class="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2.5 py-1 font-medium text-gray-600">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Cập nhật 2026-06-22
+      </span>
+    </div>
+  </div>
+
+  <!-- study-status strip -->
+  <div class="border-t border-gray-100 bg-white/60">
+    <div class="mx-auto max-w-7xl px-5 py-2 flex flex-wrap items-center gap-2 text-[12px]">
+      <span class="font-semibold text-gray-500 mr-1">Đang học:</span>
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-gray-600"><span class="h-2 w-2 rounded-sm border border-gray-300 bg-gray-100"></span><span class="font-mono text-sql">1Z0-071</span> SQL</span>
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-gray-600"><span class="h-2 w-2 rounded-sm border border-gray-300 bg-gray-100"></span><span class="font-mono text-java">1Z0-830</span> Java</span>
+      <span class="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-gray-600"><span class="h-2 w-2 rounded-sm border border-gray-300 bg-gray-100"></span><span class="font-mono text-spring">2V0-72.22</span> Spring</span>
+      <span class="text-gray-400 hidden sm:inline">·</span>
+      <span class="text-gray-500">Tuần thứ <span class="font-semibold text-gray-700">—</span> / lộ trình · chưa tick cert hiện tại</span>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-7xl px-5 py-8 space-y-12">
+
+  <!-- ===================== KPI GRID ===================== -->
+  <section class="reveal">
+    <div class="mb-4 flex items-center gap-2">
+      <h2 class="font-display text-sm font-bold uppercase tracking-wider text-gray-400">Tổng quan</h2>
+      <div class="h-px flex-1 bg-gray-200"></div>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[12px] font-medium text-gray-500">Tổng chủ đề</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div class="mt-2 font-display text-4xl font-extrabold tracking-tight">63</div>
+        <p class="mt-1 text-[12px] text-gray-500">checklist trên 3 chứng chỉ</p>
+      </div>
+
+      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[12px] font-medium text-gray-500">Tiến độ tổng</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+        </div>
+        <div class="mt-2 flex items-end gap-1">
+          <span class="font-display text-4xl font-extrabold tracking-tight">0</span>
+          <span class="font-display text-2xl font-bold text-gray-400 mb-0.5">%</span>
+        </div>
+        <div class="mt-2.5 h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
+          <div class="h-full rounded-full bg-brand" style="width:1.5%"></div>
+        </div>
+        <p class="mt-1.5 text-[12px] text-gray-500">0 / 63 chủ đề đã xong</p>
+      </div>
+
+      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[12px] font-medium text-gray-500">Chứng chỉ mục tiêu</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"/></svg>
+        </div>
+        <div class="mt-2 font-display text-4xl font-extrabold tracking-tight">3</div>
+        <div class="mt-1.5 flex gap-1">
+          <span class="h-1.5 flex-1 rounded-full bg-sql"></span>
+          <span class="h-1.5 flex-1 rounded-full bg-java"></span>
+          <span class="h-1.5 flex-1 rounded-full bg-spring"></span>
+        </div>
+        <p class="mt-1.5 text-[12px] text-gray-500">SQL → Java → Spring</p>
+      </div>
+
+      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[12px] font-medium text-gray-500">Lộ trình &amp; ngân sách</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="mt-2 flex items-baseline gap-1.5">
+          <span class="font-display text-4xl font-extrabold tracking-tight">12–15</span>
+          <span class="text-sm font-semibold text-gray-400">tháng</span>
+        </div>
+        <p class="mt-1 text-[12px] text-gray-500">Tổng chi phí dự kiến <span class="font-semibold text-gray-700">~$900</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PER-CERT PROGRESS ===================== -->
+  <section class="reveal">
+    <div class="mb-4 flex items-center gap-2">
+      <h2 class="font-display text-sm font-bold uppercase tracking-wider text-gray-400">Tiến độ theo chứng chỉ</h2>
+      <div class="h-px flex-1 bg-gray-200"></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+
+      <!-- SQL card -->
+      <article class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-lg hover:border-sql/40">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-sql"></span>
+              <span class="font-mono text-[12px] font-medium text-sql">1Z0-071</span>
+            </div>
+            <h3 class="mt-1 font-display text-lg font-bold leading-tight">Oracle Database SQL</h3>
+            <p class="text-[12px] text-gray-500">Associate · Giai đoạn Tháng 1–3</p>
+          </div>
+          <div class="text-right">
+            <div class="font-display text-2xl font-extrabold text-sql">0%</div>
+            <div class="text-[11px] text-gray-400">0 / 23 chủ đề</div>
+          </div>
+        </div>
+        <div class="mt-4 h-2 w-full rounded-full bg-rose-50 overflow-hidden">
+          <div class="h-full rounded-full bg-sql" style="width:2%"></div>
+        </div>
+        <!-- mock gauge -->
+        <div class="mt-4 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] text-gray-500">
+            <span>Mock hiện tại <span class="font-semibold text-gray-700">—/—</span></span>
+            <span>Mục tiêu <span class="font-semibold text-sql">≥ 75%</span></span>
+          </div>
+          <div class="relative h-1.5 w-full rounded-full bg-gray-100">
+            <div class="absolute top-1/2 -translate-y-1/2 h-3 w-0.5 rounded bg-sql" style="left:75%"></div>
+          </div>
+          <p class="text-[11px] text-gray-400">Đạt ≥ 75% liên tục 3 lần trước khi đăng ký · ngưỡng đề thật 63%</p>
+        </div>
+        <div class="mt-4 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-700 border border-amber-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Chưa đăng ký · ngày thi chưa đặt
+        </div>
+      </article>
+
+      <!-- Java card -->
+      <article class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-lg hover:border-java/40">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-java"></span>
+              <span class="font-mono text-[12px] font-medium text-java">1Z0-830</span>
+            </div>
+            <h3 class="mt-1 font-display text-lg font-bold leading-tight">Java SE 21 Developer</h3>
+            <p class="text-[12px] text-gray-500">Professional · Giai đoạn Tháng 4–9</p>
+          </div>
+          <div class="text-right">
+            <div class="font-display text-2xl font-extrabold text-java">0%</div>
+            <div class="text-[11px] text-gray-400">0 / 25 chủ đề</div>
+          </div>
+        </div>
+        <div class="mt-4 h-2 w-full rounded-full bg-amber-50 overflow-hidden">
+          <div class="h-full rounded-full bg-java" style="width:2%"></div>
+        </div>
+        <div class="mt-4 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] text-gray-500">
+            <span>Mock hiện tại <span class="font-semibold text-gray-700">—/—</span></span>
+            <span>Mục tiêu <span class="font-semibold text-java">≥ 80%</span></span>
+          </div>
+          <div class="relative h-1.5 w-full rounded-full bg-gray-100">
+            <div class="absolute top-1/2 -translate-y-1/2 h-3 w-0.5 rounded bg-java" style="left:80%"></div>
+          </div>
+          <p class="text-[11px] text-gray-400">Đạt ≥ 80% liên tục 3 lần trước khi đăng ký · ngưỡng đề thật 68%</p>
+        </div>
+        <div class="mt-4 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-700 border border-amber-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Chưa đăng ký · cert khó nhất
+        </div>
+      </article>
+
+      <!-- Spring card -->
+      <article class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all hover:shadow-lg hover:border-spring/40">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="h-2.5 w-2.5 rounded-full bg-spring"></span>
+              <span class="font-mono text-[12px] font-medium text-spring">2V0-72.22</span>
+            </div>
+            <h3 class="mt-1 font-display text-lg font-bold leading-tight">Spring Professional</h3>
+            <p class="text-[12px] text-gray-500">Certified · Giai đoạn Tháng 10–13</p>
+          </div>
+          <div class="text-right">
+            <div class="font-display text-2xl font-extrabold text-spring">0%</div>
+            <div class="text-[11px] text-gray-400">0 / 15 chủ đề</div>
+          </div>
+        </div>
+        <div class="mt-4 h-2 w-full rounded-full bg-emerald-50 overflow-hidden">
+          <div class="h-full rounded-full bg-spring" style="width:2%"></div>
+        </div>
+        <div class="mt-4 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] text-gray-500">
+            <span>Mock hiện tại <span class="font-semibold text-gray-700">—/—</span></span>
+            <span>Mục tiêu <span class="font-semibold text-spring">≥ 65%</span></span>
+          </div>
+          <div class="relative h-1.5 w-full rounded-full bg-gray-100">
+            <div class="absolute top-1/2 -translate-y-1/2 h-3 w-0.5 rounded bg-spring" style="left:65%"></div>
+          </div>
+          <p class="text-[11px] text-gray-400">Đạt ≥ 65% liên tục 3 lần trước khi đăng ký · ngưỡng đề thật 300/500</p>
+        </div>
+        <div class="mt-4 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-700 border border-amber-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Chưa đăng ký · cần nền Java
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== TREND + ROADMAP ===================== -->
+  <section class="reveal grid lg:grid-cols-5 gap-4">
+
+    <!-- Spaced repetition curve (sparkline-style trend) -->
+    <div class="lg:col-span-3 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="flex items-start justify-between">
+        <div>
+          <h3 class="font-display text-base font-bold">Đường cong ôn giãn cách</h3>
+          <p class="text-[12px] text-gray-500">Spaced repetition — khoảng cách ôn tăng dần để chống quên</p>
+        </div>
+        <span class="rounded-md bg-indigo-50 px-2 py-1 text-[11px] font-medium text-brand border border-indigo-100">5 mốc · 1 → 30 ngày</span>
+      </div>
+
+      <svg viewBox="0 0 600 200" class="mt-3 w-full" role="img" aria-label="Biểu đồ khoảng cách ôn tập tăng dần từ 1 đến 30 ngày">
+        <defs>
+          <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#4f46e5" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- gridlines -->
+        <line x1="40" y1="20"  x2="580" y2="20"  stroke="#f3f4f6"/>
+        <line x1="40" y1="63"  x2="580" y2="63"  stroke="#f3f4f6"/>
+        <line x1="40" y1="106" x2="580" y2="106" stroke="#f3f4f6"/>
+        <line x1="40" y1="150" x2="580" y2="150" stroke="#e5e7eb"/>
+        <!-- area + line -->
+        <path d="M60 145.7 L185 137 L310 119.7 L435 89.3 L560 20 L560 150 L60 150 Z" fill="url(#area)"/>
+        <path class="draw-line" d="M60 145.7 L185 137 L310 119.7 L435 89.3 L560 20" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- dots + value labels -->
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="#4f46e5" text-anchor="middle">
+          <circle cx="60"  cy="145.7" r="4" fill="#fff" stroke="#4f46e5" stroke-width="2.5"/><text x="60"  y="138">+1d</text>
+          <circle cx="185" cy="137"   r="4" fill="#fff" stroke="#4f46e5" stroke-width="2.5"/><text x="185" y="129">+3d</text>
+          <circle cx="310" cy="119.7" r="4" fill="#fff" stroke="#4f46e5" stroke-width="2.5"/><text x="310" y="112">+7d</text>
+          <circle cx="435" cy="89.3"  r="4" fill="#fff" stroke="#4f46e5" stroke-width="2.5"/><text x="435" y="81">+14d</text>
+          <circle cx="560" cy="20"    r="4" fill="#fff" stroke="#4f46e5" stroke-width="2.5"/><text x="552" y="14">+30d</text>
+        </g>
+        <!-- x labels -->
+        <g font-family="Inter, sans-serif" font-size="11" fill="#9ca3af" text-anchor="middle">
+          <text x="60" y="172">Lần 1</text>
+          <text x="185" y="172">Lần 2</text>
+          <text x="310" y="172">Lần 3</text>
+          <text x="435" y="172">Lần 4</text>
+          <text x="560" y="172">Lần 5</text>
+        </g>
+      </svg>
+      <p class="mt-1 text-[11px] text-gray-400">Trục Y = số ngày sau buổi học · áp dụng cho từng chủ đề ngay khi học xong.</p>
+    </div>
+
+    <!-- Topic distribution donut -->
+    <div class="lg:col-span-2 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <h3 class="font-display text-base font-bold">Phân bố 63 chủ đề</h3>
+      <p class="text-[12px] text-gray-500">Khối lượng kiến thức theo từng chứng chỉ</p>
+      <div class="mt-3 flex items-center gap-5">
+        <svg width="140" height="140" viewBox="0 0 140 140" class="shrink-0">
+          <g transform="rotate(-90 70 70)">
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#f3f4f6" stroke-width="18"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#e11d48" stroke-width="18" stroke-dasharray="123.83 339.29" stroke-dashoffset="0"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#d97706" stroke-width="18" stroke-dasharray="134.64 339.29" stroke-dashoffset="-123.83"/>
+            <circle cx="70" cy="70" r="54" fill="none" stroke="#16a34a" stroke-width="18" stroke-dasharray="80.78 339.29" stroke-dashoffset="-258.47"/>
+          </g>
+          <text x="70" y="66" text-anchor="middle" class="font-display" font-size="26" font-weight="800" fill="#0a0a0a">63</text>
+          <text x="70" y="84" text-anchor="middle" font-size="10" fill="#9ca3af" font-family="Inter">chủ đề</text>
+        </svg>
+        <ul class="space-y-2.5 text-[13px] w-full">
+          <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-java"></span>Java</span><span class="font-semibold">25 <span class="text-gray-400 font-normal text-[11px]">· 40%</span></span></li>
+          <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-sql"></span>Oracle SQL</span><span class="font-semibold">23 <span class="text-gray-400 font-normal text-[11px]">· 37%</span></span></li>
+          <li class="flex items-center justify-between"><span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-spring"></span>Spring</span><span class="font-semibold">15 <span class="text-gray-400 font-normal text-[11px]">· 24%</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ROADMAP TIMELINE ===================== -->
+  <section class="reveal rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <h3 class="font-display text-base font-bold">Lộ trình 13 tháng</h3>
+        <p class="text-[12px] text-gray-500">Học SQL trước (tạo đà) → Java (khó nhất) → Spring (cần nền Java)</p>
+      </div>
+      <span class="rounded-md border border-gray-200 bg-paper px-2 py-1 text-[11px] font-mono text-gray-500">Tháng 1 → 13</span>
+    </div>
+
+    <div class="mt-5 space-y-3">
+      <!-- month ruler -->
+      <div class="grid grid-cols-13 gap-px text-center text-[10px] font-mono text-gray-400">
+        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+      </div>
+      <!-- bars -->
+      <div class="space-y-2">
+        <div class="grid grid-cols-13 gap-px items-center">
+          <div class="col-span-3 col-start-1 flex items-center gap-2 rounded-lg bg-sql/10 border border-sql/30 px-3 py-2">
+            <span class="h-2 w-2 rounded-full bg-sql shrink-0"></span>
+            <span class="text-[12px] font-semibold text-sql truncate">SQL · 1Z0-071</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-13 gap-px items-center">
+          <div class="col-span-6 col-start-4 flex items-center gap-2 rounded-lg bg-java/10 border border-java/30 px-3 py-2">
+            <span class="h-2 w-2 rounded-full bg-java shrink-0"></span>
+            <span class="text-[12px] font-semibold text-java truncate">Java SE 21 · 1Z0-830</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-13 gap-px items-center">
+          <div class="col-span-4 col-start-10 flex items-center gap-2 rounded-lg bg-spring/10 border border-spring/30 px-3 py-2">
+            <span class="h-2 w-2 rounded-full bg-spring shrink-0"></span>
+            <span class="text-[12px] font-semibold text-spring truncate">Spring · 2V0-72.22</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ACTIVITY FEED (spaced-rep workflow) ===================== -->
+  <section class="reveal grid lg:grid-cols-5 gap-4">
+    <div class="lg:col-span-3 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-display text-base font-bold">Quy trình ôn tập</h3>
+          <p class="text-[12px] text-gray-500">Lịch nhắc giãn cách cho mỗi chủ đề đã học</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-gray-500"><span class="live-dot h-1.5 w-1.5 rounded-full bg-brand"></span> tự động theo ngày</span>
+      </div>
+
+      <ol class="mt-4 relative border-l border-gray-200 ml-3 space-y-5">
+        <li class="ml-6">
+          <span class="absolute -left-[13px] grid h-6 w-6 place-items-center rounded-full bg-brand text-white text-[11px] font-bold shadow-sm ring-4 ring-white">1</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-[13px] font-semibold">Đọc lại tóm tắt + 3 câu nhanh</p>
+            <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] font-medium text-gray-600">+1 ngày</span>
+          </div>
+          <p class="mt-0.5 text-[12px] text-gray-500">Chạy <code class="font-mono text-brand">/on-tap</code> ngay hôm sau buổi học.</p>
+        </li>
+        <li class="ml-6">
+          <span class="absolute -left-[13px] grid h-6 w-6 place-items-center rounded-full bg-brand text-white text-[11px] font-bold shadow-sm ring-4 ring-white">2</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-[13px] font-semibold">Flashcard Anki</p>
+            <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] font-medium text-gray-600">+3 ngày</span>
+          </div>
+          <p class="mt-0.5 text-[12px] text-gray-500">Xuất thẻ spaced-repetition bằng <code class="font-mono text-brand">/flashcard</code>.</p>
+        </li>
+        <li class="ml-6">
+          <span class="absolute -left-[13px] grid h-6 w-6 place-items-center rounded-full bg-brand text-white text-[11px] font-bold shadow-sm ring-4 ring-white">3</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-[13px] font-semibold">Mock 5 câu đúng chủ đề</p>
+            <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] font-medium text-gray-600">+7 ngày</span>
+          </div>
+          <p class="mt-0.5 text-[12px] text-gray-500">Kiểm tra nắm vững bằng <code class="font-mono text-brand">/kiem-tra</code>.</p>
+        </li>
+        <li class="ml-6">
+          <span class="absolute -left-[13px] grid h-6 w-6 place-items-center rounded-full bg-brand text-white text-[11px] font-bold shadow-sm ring-4 ring-white">4</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-[13px] font-semibold">Review sổ lỗi sai</p>
+            <span class="rounded bg-gray-100 px-1.5 py-0.5 text-[11px] font-medium text-gray-600">+14 ngày</span>
+          </div>
+          <p class="mt-0.5 text-[12px] text-gray-500">Soi lại điểm yếu bằng <code class="font-mono text-brand">/lich-su-sai</code>.</p>
+        </li>
+        <li class="ml-6">
+          <span class="absolute -left-[13px] grid h-6 w-6 place-items-center rounded-full bg-emerald-500 text-white text-[11px] font-bold shadow-sm ring-4 ring-white">5</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-[13px] font-semibold">Mock tổng hợp</p>
+            <span class="rounded bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 text-[11px] font-medium text-emerald-700">+30 ngày</span>
+          </div>
+          <p class="mt-0.5 text-[12px] text-gray-500">Đề tổng hợp bằng <code class="font-mono text-brand">/kiem-tra</code> để chốt độ bền kiến thức.</p>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Countdown column -->
+    <div class="lg:col-span-2 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <h3 class="font-display text-base font-bold">Đếm ngược ngày thi</h3>
+      <p class="text-[12px] text-gray-500">Đăng ký sau khi mock đạt ngưỡng ổn định</p>
+
+      <div class="mt-4 space-y-3">
+        <div class="rounded-xl border border-gray-200 p-3.5">
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 text-[13px] font-semibold"><span class="h-2 w-2 rounded-full bg-sql"></span>1Z0-071 SQL</span>
+            <span class="rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-medium text-amber-700">chưa đăng ký</span>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl font-extrabold text-gray-300">— —</span>
+            <span class="text-[11px] text-gray-400">ngày · chưa đặt lịch</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-3.5">
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 text-[13px] font-semibold"><span class="h-2 w-2 rounded-full bg-java"></span>1Z0-830 Java</span>
+            <span class="rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-medium text-amber-700">chưa đăng ký</span>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl font-extrabold text-gray-300">— —</span>
+            <span class="text-[11px] text-gray-400">ngày · chưa đặt lịch</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-gray-200 p-3.5">
+          <div class="flex items-center justify-between">
+            <span class="flex items-center gap-2 text-[13px] font-semibold"><span class="h-2 w-2 rounded-full bg-spring"></span>2V0-72.22 Spring</span>
+            <span class="rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-[10px] font-medium text-amber-700">chưa đăng ký</span>
+          </div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="font-display text-2xl font-extrabold text-gray-300">— —</span>
+            <span class="text-[11px] text-gray-400">ngày · chưa đặt lịch</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 flex items-start gap-2 rounded-lg bg-indigo-50/60 border border-indigo-100 p-2.5">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" class="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <p class="text-[11px] text-brand/90 leading-relaxed">Điền ngày thi (YYYY-MM-DD) vào <code class="font-mono">tien-do.md</code> rồi render lại — số đếm ngược sẽ tự cập nhật.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LINKED DATABASE TABLES ===================== -->
+  <section class="reveal">
+    <div class="mb-4 flex items-center gap-2">
+      <h2 class="font-display text-sm font-bold uppercase tracking-wider text-gray-400">Cơ sở dữ liệu checklist</h2>
+      <div class="h-px flex-1 bg-gray-200"></div>
+      <div class="flex items-center gap-2 text-[11px]">
+        <span class="inline-flex items-center gap-1 rounded-md bg-gray-100 px-1.5 py-0.5 text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span>
+        <span class="inline-flex items-center gap-1 rounded-md bg-amber-50 px-1.5 py-0.5 text-amber-700"><span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>Đang học</span>
+        <span class="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-1.5 py-0.5 text-emerald-700"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>Đã xong</span>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+
+      <!-- SQL TABLE -->
+      <details open class="group rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <summary class="flex items-center gap-3 p-4 hover:bg-gray-50/60 transition-colors">
+          <svg class="chev text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          <span class="h-2.5 w-2.5 rounded-full bg-sql"></span>
+          <h3 class="font-display text-base font-bold">Oracle SQL <span class="font-mono text-[12px] font-medium text-sql ml-1">1Z0-071</span></h3>
+          <span class="ml-auto text-[12px] text-gray-500"><span class="font-semibold text-gray-700">0</span> / 23 xong</span>
+        </summary>
+        <div class="overflow-x-auto scrollbar-thin border-t border-gray-100">
+          <table class="zebra w-full text-[13px]">
+            <thead class="bg-gray-50/80 text-gray-500">
+              <tr class="text-left">
+                <th class="px-4 py-2.5 font-medium w-12">#</th>
+                <th class="px-4 py-2.5 font-medium">Chủ đề</th>
+                <th class="px-4 py-2.5 font-medium w-44">Nhóm</th>
+                <th class="px-4 py-2.5 font-medium w-32">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">01</td><td class="px-4 py-2.5 font-medium">Relational Database concepts</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Nền tảng</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">02</td><td class="px-4 py-2.5 font-medium">SELECT cơ bản</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Truy vấn</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">03</td><td class="px-4 py-2.5 font-medium">WHERE, ORDER BY, FETCH</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Truy vấn</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">04</td><td class="px-4 py-2.5 font-medium">Single-Row Functions (string)</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Hàm 1 dòng</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">05</td><td class="px-4 py-2.5 font-medium">Single-Row Functions (number, date)</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Hàm 1 dòng</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">06</td><td class="px-4 py-2.5 font-medium">Conversion Functions</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Hàm 1 dòng</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">07</td><td class="px-4 py-2.5 font-medium">Group Functions (COUNT, SUM, AVG, MIN, MAX)</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Hàm nhóm</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">08</td><td class="px-4 py-2.5 font-medium">GROUP BY và HAVING</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Hàm nhóm</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">09</td><td class="px-4 py-2.5 font-medium">INNER JOIN</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Joins</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">10</td><td class="px-4 py-2.5 font-medium">OUTER JOIN (LEFT, RIGHT, FULL)</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Joins</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">11</td><td class="px-4 py-2.5 font-medium">CROSS JOIN và Natural JOIN</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Joins</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">12</td><td class="px-4 py-2.5 font-medium">Single-row subqueries</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Subqueries</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">13</td><td class="px-4 py-2.5 font-medium">Multi-row subqueries</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Subqueries</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">14</td><td class="px-4 py-2.5 font-medium">Correlated subqueries</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Subqueries</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">15</td><td class="px-4 py-2.5 font-medium">UNION, INTERSECT, MINUS</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Set operators</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">16</td><td class="px-4 py-2.5 font-medium">CREATE/ALTER/DROP TABLE</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">DDL</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">17</td><td class="px-4 py-2.5 font-medium">INSERT, UPDATE, DELETE</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">DML</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">18</td><td class="px-4 py-2.5 font-medium">MERGE</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">DML</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">19</td><td class="px-4 py-2.5 font-medium">Views</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Schema objects</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">20</td><td class="px-4 py-2.5 font-medium">Sequences</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Schema objects</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">21</td><td class="px-4 py-2.5 font-medium">Synonyms</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Schema objects</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">22</td><td class="px-4 py-2.5 font-medium">Indexes</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Schema objects</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">23</td><td class="px-4 py-2.5 font-medium">Constraints</td><td class="px-4 py-2.5"><span class="rounded bg-rose-50 px-1.5 py-0.5 text-[11px] text-sql">Schema objects</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- JAVA TABLE -->
+      <details open class="group rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <summary class="flex items-center gap-3 p-4 hover:bg-gray-50/60 transition-colors">
+          <svg class="chev text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          <span class="h-2.5 w-2.5 rounded-full bg-java"></span>
+          <h3 class="font-display text-base font-bold">Java SE 21 <span class="font-mono text-[12px] font-medium text-java ml-1">1Z0-830</span></h3>
+          <span class="ml-auto text-[12px] text-gray-500"><span class="font-semibold text-gray-700">0</span> / 25 xong</span>
+        </summary>
+        <div class="overflow-x-auto scrollbar-thin border-t border-gray-100">
+          <table class="zebra w-full text-[13px]">
+            <thead class="bg-gray-50/80 text-gray-500">
+              <tr class="text-left">
+                <th class="px-4 py-2.5 font-medium w-12">#</th>
+                <th class="px-4 py-2.5 font-medium">Chủ đề</th>
+                <th class="px-4 py-2.5 font-medium w-48">Nhóm</th>
+                <th class="px-4 py-2.5 font-medium w-32">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">01</td><td class="px-4 py-2.5 font-medium">Data Types và Variables</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Cơ bản</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">02</td><td class="px-4 py-2.5 font-medium">Operators và Expressions</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Cơ bản</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">03</td><td class="px-4 py-2.5 font-medium">Control Flow (if, switch, loops)</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Cơ bản</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">04</td><td class="px-4 py-2.5 font-medium">OOP: Classes, Objects</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">OOP</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">05</td><td class="px-4 py-2.5 font-medium">OOP: Inheritance và Polymorphism</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">OOP</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">06</td><td class="px-4 py-2.5 font-medium">OOP: Interfaces và Abstract Classes</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">OOP</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">07</td><td class="px-4 py-2.5 font-medium">Enums</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Modern types</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">08</td><td class="px-4 py-2.5 font-medium">Records</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Modern types</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">09</td><td class="px-4 py-2.5 font-medium">Sealed Classes</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Modern types</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">10</td><td class="px-4 py-2.5 font-medium">Generics</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Generics &amp; Collections</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">11</td><td class="px-4 py-2.5 font-medium">Collections Framework</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Generics &amp; Collections</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">12</td><td class="px-4 py-2.5 font-medium">Lambda Expressions</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Functional</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">13</td><td class="px-4 py-2.5 font-medium">Functional Interfaces</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Functional</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">14</td><td class="px-4 py-2.5 font-medium">Stream API</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Functional</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">15</td><td class="px-4 py-2.5 font-medium">Optional</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Functional</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">16</td><td class="px-4 py-2.5 font-medium">Pattern Matching</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Cú pháp mới</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">17</td><td class="px-4 py-2.5 font-medium">Text Blocks</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Cú pháp mới</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">18</td><td class="px-4 py-2.5 font-medium">Date/Time API</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">API</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">19</td><td class="px-4 py-2.5 font-medium">Exception Handling</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">API</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">20</td><td class="px-4 py-2.5 font-medium">Java I/O (Files, Paths)</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">API</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">21</td><td class="px-4 py-2.5 font-medium">Java Module System</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Module &amp; Concurrency</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">22</td><td class="px-4 py-2.5 font-medium">Concurrency basics</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Module &amp; Concurrency</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">23</td><td class="px-4 py-2.5 font-medium">ExecutorService và Future</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Module &amp; Concurrency</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">24</td><td class="px-4 py-2.5 font-medium">Virtual Threads</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Module &amp; Concurrency</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">25</td><td class="px-4 py-2.5 font-medium">Localization</td><td class="px-4 py-2.5"><span class="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] text-java">Khác</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- SPRING TABLE -->
+      <details open class="group rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <summary class="flex items-center gap-3 p-4 hover:bg-gray-50/60 transition-colors">
+          <svg class="chev text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+          <span class="h-2.5 w-2.5 rounded-full bg-spring"></span>
+          <h3 class="font-display text-base font-bold">Spring Professional <span class="font-mono text-[12px] font-medium text-spring ml-1">2V0-72.22</span></h3>
+          <span class="ml-auto text-[12px] text-gray-500"><span class="font-semibold text-gray-700">0</span> / 15 xong</span>
+        </summary>
+        <div class="overflow-x-auto scrollbar-thin border-t border-gray-100">
+          <table class="zebra w-full text-[13px]">
+            <thead class="bg-gray-50/80 text-gray-500">
+              <tr class="text-left">
+                <th class="px-4 py-2.5 font-medium w-12">#</th>
+                <th class="px-4 py-2.5 font-medium">Chủ đề</th>
+                <th class="px-4 py-2.5 font-medium w-48">Nhóm</th>
+                <th class="px-4 py-2.5 font-medium w-32">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">01</td><td class="px-4 py-2.5 font-medium">IoC Container</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Core / IoC</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">02</td><td class="px-4 py-2.5 font-medium">Bean Lifecycle</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Core / IoC</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">03</td><td class="px-4 py-2.5 font-medium">Bean Scopes</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Core / IoC</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">04</td><td class="px-4 py-2.5 font-medium">Dependency Injection</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Core / IoC</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">05</td><td class="px-4 py-2.5 font-medium">@Component và Stereotypes</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Cấu hình</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">06</td><td class="px-4 py-2.5 font-medium">@Configuration và @Bean</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Cấu hình</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">07</td><td class="px-4 py-2.5 font-medium">Spring AOP</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">AOP</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">08</td><td class="px-4 py-2.5 font-medium">Spring MVC</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Web</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">09</td><td class="px-4 py-2.5 font-medium">REST Controllers</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Web</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">10</td><td class="px-4 py-2.5 font-medium">Spring Boot Auto-Configuration</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Spring Boot</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">11</td><td class="px-4 py-2.5 font-medium">Spring Boot Actuator</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Spring Boot</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">12</td><td class="px-4 py-2.5 font-medium">Spring Data JPA</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Data</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">13</td><td class="px-4 py-2.5 font-medium">Spring Transactions</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Data</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">14</td><td class="px-4 py-2.5 font-medium">Spring Security basics</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Security &amp; Testing</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+              <tr><td class="px-4 py-2.5 font-mono text-gray-400">15</td><td class="px-4 py-2.5 font-medium">Spring Testing</td><td class="px-4 py-2.5"><span class="rounded bg-emerald-50 px-1.5 py-0.5 text-[11px] text-spring">Security &amp; Testing</span></td><td class="px-4 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600"><span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>Chưa học</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- ===================== WEEKLY JOURNAL ===================== -->
+  <section class="reveal">
+    <div class="mb-4 flex items-center gap-2">
+      <h2 class="font-display text-sm font-bold uppercase tracking-wider text-gray-400">Nhật ký tuần</h2>
+      <div class="h-px flex-1 bg-gray-200"></div>
+      <span class="text-[11px] text-gray-400">mới nhất ở trên</span>
+    </div>
+
+    <div class="rounded-2xl border border-dashed border-gray-300 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <h3 class="font-display text-base font-bold text-gray-400">Tuần — <span class="font-normal text-[13px]">(YYYY-MM-DD → YYYY-MM-DD)</span></h3>
+        <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] font-medium text-gray-500">chưa có entry</span>
+      </div>
+
+      <div class="mt-4 grid sm:grid-cols-2 gap-3">
+        <div class="rounded-xl border border-gray-200 bg-gray-50/50 p-3.5">
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Đã học</p>
+          <p class="mt-1.5 text-[13px] text-gray-400 italic">— ghi sau buổi học —</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-gray-50/50 p-3.5">
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Mock</p>
+          <p class="mt-1.5 text-[13px] text-gray-400 italic">—/—</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-gray-50/50 p-3.5">
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Điểm yếu phát hiện</p>
+          <p class="mt-1.5 text-[13px] text-gray-400 italic">— ghi vào sổ lỗi qua /lich-su-sai —</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-gray-50/50 p-3.5">
+          <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">Kế hoạch tuần sau</p>
+          <p class="mt-1.5 text-[13px] text-gray-400 italic">— đặt mục tiêu checklist tiếp theo —</p>
+        </div>
+      </div>
+
+      <!-- Notion-style callout -->
+      <div class="mt-4 flex items-start gap-3 rounded-xl bg-indigo-50/60 border border-indigo-100 p-3.5">
+        <span class="text-lg leading-none">💡</span>
+        <div class="text-[12px] text-brand/90 leading-relaxed">
+          <p class="font-semibold">Quy ước Living Doc</p>
+          <p class="mt-0.5">Cập nhật <code class="font-mono">tien-do.md</code> sau MỖI buổi học / mock, rồi render lại sang HTML. Template tuần chi tiết: <code class="font-mono">.claude/plans/ke-hoach-tuan.md</code>. Gọi <code class="font-mono">/tien-do</code> để Claude review nhanh.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="reveal pt-2 pb-8">
+    <div class="rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 text-[12px] text-gray-500">
+        <span class="live-dot h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+        <span>Living Doc · cập nhật lần cuối <span class="font-semibold text-gray-700">2026-06-22</span></span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 text-[11px]">
+        <span class="rounded-md border border-gray-200 bg-white px-2 py-1 font-mono text-gray-600">63 chủ đề</span>
+        <span class="rounded-md border border-gray-200 bg-white px-2 py-1 font-mono text-gray-600">3 chứng chỉ</span>
+        <span class="rounded-md border border-gray-200 bg-white px-2 py-1 font-mono text-gray-600">~$900</span>
+        <span class="rounded-md border border-gray-200 bg-white px-2 py-1 font-mono text-gray-600">12–15 tháng</span>
+      </div>
+    </div>
+    <p class="mt-3 text-center text-[11px] text-gray-400">Học SQL trước (tạo đà) → Java (khó nhất) → Spring (cần nền Java) · "đang ở đâu" được cập nhật sau mỗi buổi học.</p>
+  </footer>
+
+</main>
+
+<script>
+  // Stagger reveal animations on scroll for a calm, non-distracting entrance
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.animationDelay = (i * 60) + 'ms';
+        e.target.classList.add('reveal');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach((el) => {
+    el.classList.remove('reveal');
+    io.observe(el);
+  });
+</script>
+</body>
+</html>

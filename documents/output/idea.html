@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lộ Trình & Tài Liệu Ôn Thi 3 Chứng Chỉ — Oracle & Spring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: { paper:'#f5f4ed', paper2:'#efeee5', ink:'#1f1d18', ink2:'#6b665b', blue:'#1B365D', rule:'#d4d1c5' },
+      fontFamily: { serif:['"Source Serif 4"','Georgia','serif'], mono:['"IBM Plex Mono"','monospace'] }
+    } }
+  }
+</script>
+<style>
+  :root{
+    --paper:#f5f4ed; --paper2:#efeee5; --ink:#1f1d18; --ink2:#6b665b;
+    --blue:#1B365D; --rule:#d4d1c5; --rule-soft:#e6e3d8; --dom:#8a857a;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif; font-weight:400;
+    font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    animation:fade .6s ease both;
+  }
+  @keyframes fade{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+
+  .sheet{ max-width:53rem; margin:0 auto; padding:0 1.6rem; }
+
+  a{ color:var(--blue); text-decoration:none; border-bottom:1px solid #c4ccd8; transition:border-color .15s ease; }
+  a:hover{ border-bottom-color:var(--blue); }
+  a:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; border-radius:1px; }
+
+  h1,h2,h3,h4{ font-weight:500; margin:0; }
+
+  .kick{ font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink2); font-weight:500; }
+
+  /* ---- cover ---- */
+  .cover{ padding:5.5rem 0 3rem; }
+  .logotype{ font-style:italic; font-size:1.35rem; color:var(--blue); font-weight:500; letter-spacing:.01em; }
+  .cover h1{ font-size:clamp(2.3rem,6vw,3.7rem); line-height:1.12; letter-spacing:-.01em; margin:1.5rem 0 0; max-width:18ch; }
+  .lede{ color:var(--ink2); font-size:1.18rem; line-height:1.5; max-width:60ch; margin:1.4rem 0 0; }
+  .cover-rule{ height:1px; background:var(--rule); margin:2.6rem 0 1.8rem; max-width:34rem; }
+  .cover-meta{ display:flex; flex-wrap:wrap; gap:2.6rem 3.2rem; }
+  .cover-meta .num{ display:block; font-size:2rem; color:var(--blue); font-weight:500; line-height:1; }
+  .cover-meta .lab{ display:block; font-size:.74rem; letter-spacing:.13em; text-transform:uppercase; color:var(--ink2); margin-top:.5rem; }
+  .byline{ margin-top:2.4rem; font-size:.86rem; color:var(--ink2); font-style:italic; }
+
+  /* ---- table of contents ---- */
+  .toc{ border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:2rem 0; margin:2rem 0 4rem; }
+  .toc ol{ list-style:none; margin:1.2rem 0 0; padding:0; }
+  .toc li{ display:flex; align-items:baseline; gap:.9rem; padding:.5rem 0; }
+  .toc .no{ font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--blue); width:2.6rem; flex:none; }
+  .toc .ti{ font-size:1.08rem; }
+  .toc .dots{ flex:1; border-bottom:1px dotted var(--rule); transform:translateY(-.25em); }
+  .toc .pg{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--ink2); }
+  .toc a{ border-bottom:0; color:var(--ink); }
+  .toc a:hover .ti{ color:var(--blue); }
+
+  /* ---- sections ---- */
+  section{ padding:2.4rem 0; }
+  .folio{ font-family:'IBM Plex Mono',monospace; font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink2); margin-bottom:.7rem; }
+  .sec-title{ font-size:clamp(1.7rem,3.6vw,2.3rem); line-height:1.18; letter-spacing:-.005em; }
+  .sec-title .code{ font-family:'IBM Plex Mono',monospace; font-size:.5em; letter-spacing:.04em; color:var(--blue); border:1px solid var(--blue); padding:.18em .5em; vertical-align:middle; margin-left:.6rem; font-weight:400; white-space:nowrap; }
+  .sec-rule{ height:1px; background:var(--blue); width:3.2rem; margin:1.1rem 0 1.6rem; }
+  .sec-lead{ color:var(--ink2); max-width:62ch; margin:0 0 1.8rem; }
+
+  h3.sub{ font-size:.82rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink2); font-weight:500; margin:2.1rem 0 .4rem; display:flex; align-items:center; gap:.8rem; }
+  h3.sub::after{ content:""; flex:1; height:1px; background:var(--rule-soft); }
+
+  /* ---- exam meta strip ---- */
+  .exam-meta{ display:flex; flex-wrap:wrap; border:1px solid var(--rule); margin:0 0 .4rem; }
+  .exam-meta > div{ flex:1 1 8rem; padding:.95rem 1.15rem; border-right:1px solid var(--rule-soft); }
+  .exam-meta > div:last-child{ border-right:0; }
+  .exam-meta .num{ display:block; font-size:1.55rem; color:var(--blue); font-weight:500; line-height:1.05; }
+  .exam-meta .num.sm{ font-size:1.18rem; }
+  .exam-meta .lab{ display:block; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2); margin-top:.35rem; }
+
+  /* ---- reference list ---- */
+  .reflist{ list-style:none; margin:.2rem 0 0; padding:0; }
+  .reflist li{ display:flex; gap:1.2rem; align-items:baseline; justify-content:space-between; padding:.62rem 0; border-bottom:1px solid var(--rule-soft); }
+  .reflist li:last-child{ border-bottom:0; }
+  .reflist .name{ flex:1; }
+  .reflist .name .desc{ display:block; color:var(--ink2); font-size:.9rem; margin-top:.18rem; line-height:1.45; }
+  .dom{ font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--dom); white-space:nowrap; flex:none; }
+  .plain{ color:var(--ink); }
+
+  /* ---- tags ---- */
+  .tag{ display:inline-block; padding:.1em .5em; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; font-family:'IBM Plex Mono',monospace; background:var(--paper2); color:var(--ink2); border:1px solid var(--rule); vertical-align:middle; margin-right:.5rem; }
+  .tag-blue{ background:var(--blue); color:var(--paper); border-color:var(--blue); }
+
+  /* ---- callout / note ---- */
+  .note{ border-left:2px solid var(--blue); background:var(--paper2); padding:.9rem 1.2rem; margin:1.4rem 0 0; font-size:.92rem; color:var(--ink2); }
+  .note b{ color:var(--ink); font-weight:500; }
+
+  /* ---- code block ---- */
+  .code-block{ background:var(--paper2); border:1px solid var(--rule); padding:1.1rem 1.3rem; margin:1.2rem 0 0; overflow-x:auto; font-family:'IBM Plex Mono',monospace; font-size:.82rem; line-height:1.85; color:var(--ink); }
+  .code-block .cmd{ color:var(--blue); }
+  .code-block a{ border-bottom:0; }
+
+  /* ---- timeline ---- */
+  .timeline{ list-style:none; margin:.4rem 0 0; padding:0; }
+  .timeline li{ display:grid; grid-template-columns:7.5rem 1fr; gap:1.3rem; padding:0 0 1.7rem; position:relative; }
+  .timeline li:last-child{ padding-bottom:0; }
+  .tl-when{ font-family:'IBM Plex Mono',monospace; font-size:.82rem; color:var(--ink2); padding-top:.15rem; text-align:right; }
+  .tl-body{ border-left:1px solid var(--rule); padding-left:1.4rem; position:relative; }
+  .tl-body::before{ content:""; position:absolute; left:-4.5px; top:.4rem; width:8px; height:8px; background:var(--blue); }
+  .timeline li:last-child .tl-body{ border-left-color:transparent; }
+  .tl-cert{ font-size:1.12rem; font-weight:500; color:var(--blue); }
+  .tl-body p{ margin:.3rem 0 0; color:var(--ink2); font-size:.95rem; }
+
+  /* ---- ledger table ---- */
+  .ledger{ width:100%; border-collapse:collapse; margin:.4rem 0 0; }
+  .ledger th, .ledger td{ text-align:left; padding:.7rem .4rem; border-bottom:1px solid var(--rule-soft); }
+  .ledger th{ font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2); font-weight:500; }
+  .ledger td.n, .ledger th.n{ text-align:right; font-family:'IBM Plex Mono',monospace; font-size:.9rem; }
+  .ledger tr.total td{ border-top:1.5px solid var(--ink); border-bottom:0; font-weight:500; padding-top:.85rem; }
+  .ledger tr.total td.n{ color:var(--blue); }
+
+  /* ---- tips ---- */
+  .tips{ list-style:none; margin:.4rem 0 0; padding:0; }
+  .tips li{ padding:.7rem 0 .7rem 1.6rem; border-bottom:1px solid var(--rule-soft); position:relative; }
+  .tips li:last-child{ border-bottom:0; }
+  .tips li::before{ content:""; position:absolute; left:0; top:1.15rem; width:6px; height:6px; background:var(--blue); }
+  .tips b{ font-weight:500; }
+
+  /* ---- colophon ---- */
+  .colophon{ text-align:center; padding:4rem 0 5rem; color:var(--ink2); }
+  .colophon .mark{ font-size:1.1rem; color:var(--blue); letter-spacing:.5em; margin-bottom:1.1rem; }
+  .colophon .rule{ height:1px; background:var(--rule); max-width:14rem; margin:0 auto 1.4rem; }
+  .colophon p{ margin:.3rem 0; font-size:.9rem; }
+  .colophon .up{ font-family:'IBM Plex Mono',monospace; font-size:.78rem; }
+
+  @media (max-width:560px){
+    body{ font-size:16px; }
+    .exam-meta > div{ flex-basis:50%; border-bottom:1px solid var(--rule-soft); }
+    .reflist li{ flex-direction:column; gap:.25rem; }
+    .timeline li{ grid-template-columns:1fr; gap:.5rem; }
+    .tl-when{ text-align:left; }
+    .tl-body{ border-left:0; padding-left:0; }
+    .tl-body::before{ display:none; }
+  }
+  @media print{
+    body{ animation:none; }
+    a{ border-bottom:0; }
+    section{ break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- ============ COVER ============ -->
+  <header class="cover">
+    <div class="logotype">Cert Roadmap</div>
+    <div class="kick" style="margin-top:.8rem">Lộ trình tự học · Oracle &amp; Spring · 2026</div>
+    <h1>Lộ Trình &amp; Tài Liệu Ôn Thi Ba Chứng Chỉ</h1>
+    <p class="lede">Một bộ tài liệu tổng hợp đầy đủ links chính thức, sách, khóa học, practice tests và GitHub repos cho ba kỳ thi Oracle Database SQL, Java SE 21 và Spring Professional — đi kèm lộ trình theo tháng, dự toán chi phí và mẹo tiết kiệm.</p>
+
+    <div class="cover-rule"></div>
+
+    <div class="cover-meta">
+      <div><span class="num">~$900</span><span class="lab">Tổng kinh phí · ~22 triệu VNĐ</span></div>
+      <div><span class="num">12–15</span><span class="lab">Tháng học &amp; ôn</span></div>
+      <div><span class="num">3</span><span class="lab">Chứng chỉ · trọn đời</span></div>
+    </div>
+
+    <div class="byline">Biên soạn nội bộ · Cập nhật 22 tháng 6, 2026</div>
+  </header>
+
+  <!-- ============ MỤC LỤC ============ -->
+  <nav class="toc" aria-label="Mục lục">
+    <div class="kick">Mục lục</div>
+    <ol>
+      <li><a href="#s1"><span class="no">§ 01</span><span class="ti">Java SE 21 Developer — 1Z0-830</span><span class="dots"></span><span class="pg">$245</span></a></li>
+      <li><a href="#s2"><span class="no">§ 02</span><span class="ti">Oracle Database SQL Associate — 1Z0-071</span><span class="dots"></span><span class="pg">$245</span></a></li>
+      <li><a href="#s3"><span class="no">§ 03</span><span class="ti">Spring Certified Professional — 2V0-72.22</span><span class="dots"></span><span class="pg">$250</span></a></li>
+      <li><a href="#s4"><span class="no">§ 04</span><span class="ti">Top 3 repos phải clone ngay</span><span class="dots"></span><span class="pg">git</span></a></li>
+      <li><a href="#s5"><span class="no">§ 05</span><span class="ti">Lộ trình gợi ý (12–15 tháng)</span><span class="dots"></span><span class="pg">plan</span></a></li>
+      <li><a href="#s6"><span class="no">§ 06</span><span class="ti">Tổng chi phí</span><span class="dots"></span><span class="pg">~$900</span></a></li>
+      <li><a href="#s7"><span class="no">§ 07</span><span class="ti">Mẹo tiết kiệm</span><span class="dots"></span><span class="pg">tips</span></a></li>
+      <li><a href="#s8"><span class="no">§ 08</span><span class="ti">Trang quản lý chứng chỉ</span><span class="dots"></span><span class="pg">admin</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ §01 JAVA ============ -->
+  <section id="s1">
+    <div class="folio">§ 01 — Chứng chỉ Java</div>
+    <h2 class="sec-title">Java SE 21 Developer <span class="code">1Z0-830</span></h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Kỳ thi khó nhất trong ba chứng chỉ — đòi hỏi nhiều thời gian và nền tảng vững. Học sau khi đã có đà từ SQL.</p>
+
+    <div class="exam-meta">
+      <div><span class="num">50</span><span class="lab">Câu hỏi</span></div>
+      <div><span class="num">120</span><span class="lab">Phút</span></div>
+      <div><span class="num">68%</span><span class="lab">Ngưỡng đạt</span></div>
+      <div><span class="num">$245</span><span class="lab">Phí thi</span></div>
+      <div><span class="num sm">Trọn đời</span><span class="lab">Hiệu lực</span></div>
+    </div>
+
+    <h3 class="sub">Trang chính thức</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://education.oracle.com/java-se-21-developer-professional/pexam_1Z0-830">Trang kỳ thi chính thức</a></span><span class="dom">education.oracle.com</span></li>
+      <li><span class="name"><a href="https://mylearn.oracle.com/ou/exam/java-se-21-developer-professional-1z0-830/105037/139080/220555">Đăng ký thi trên MyLearn</a></span><span class="dom">mylearn.oracle.com</span></li>
+      <li><span class="name"><a href="https://www.oracle.com/education/training/buy/">Mua voucher thi</a></span><span class="dom">oracle.com</span></li>
+      <li><span class="name"><a href="https://education.oracle.com/registration">Đăng ký kỳ thi — hướng dẫn</a></span><span class="dom">education.oracle.com</span></li>
+      <li><span class="name"><a href="https://brm-certification.oracle.com/">Xem kết quả · CertView</a></span><span class="dom">brm-certification.oracle.com</span></li>
+    </ul>
+
+    <h3 class="sub">Tài liệu học</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/dp/B0DFD7M2TQ">OCP Java 17 &amp; 21 Fundamentals</a><span class="desc">Hanumant Deshmukh</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/Effective-Java-Joshua-Bloch/dp/0134685997">Effective Java — 3rd Ed</a><span class="desc">Joshua Bloch</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.udemy.com/course/oracle-certification-java-21-learnit/">Oracle Java SE 21 Developer: 1Z0-830</a><span class="desc">Udemy · ~$10 khi sale</span></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.udemy.com/course/java-the-complete-java-developer-course/">Java Masterclass 2025: 130+ Hours</a><span class="desc">Udemy</span></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.pluralsight.com/paths/oracle-certified-professional-java-se-21-developer-exam-1z0-830">Pluralsight — OCP Java SE 21 Path</a></span><span class="dom">pluralsight.com</span></li>
+    </ul>
+
+    <h3 class="sub">Practice Tests</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://www.udemy.com/course/1z0-830-practice-tests-java-se-21-developer-professional/">1Z0-830 Practice Test — javinpaul</a><span class="desc">Udemy · coupon <b>JAVA21FANS</b> = $9.9</span></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><a href="https://www.whizlabs.com/java-se-21-developer-professional/">Whizlabs — Java SE 21 Practice Tests</a></span><span class="dom">whizlabs.com</span></li>
+      <li><span class="name"><a href="https://www.myexamcloud.com/onlineexam/java-se-21-developer-certified-professional-practice-tests.course">MyExamCloud</a><span class="desc">1672 câu hỏi</span></span><span class="dom">myexamcloud.com</span></li>
+      <li><span class="name"><a href="https://enthuware.com/">Enthuware Mock Exams</a></span><span class="dom">enthuware.com</span></li>
+      <li><span class="name"><a href="https://www.dbexam.com/oracle/oracle-1z0-830-certification-sample-questions-and-answers">DBExam — Sample Questions</a><span class="desc">Miễn phí</span></span><span class="dom">dbexam.com</span></li>
+      <li><span class="name"><a href="https://www.synergisticit.com/freejava-se21test/">SynergisticIT — Free Practice Tests</a></span><span class="dom">synergisticit.com</span></li>
+    </ul>
+
+    <h3 class="sub">GitHub Repos</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag tag-blue">Khuyên dùng</span><a href="https://github.com/eh3rrera/ocpj21-book">eh3rrera/ocpj21-book</a><span class="desc">Sách miễn phí — study guide đầy đủ cho 1Z0-830, đọc online free</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/ThiagoBfim/java-21-certification">ThiagoBfim/java-21-certification</a><span class="desc">Code examples + bài tập thực hành theo từng chủ đề Java 21</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/boyarsky/sybex-1Z0-830-chapter-12">boyarsky/sybex-1Z0-830-chapter-12</a><span class="desc">Code từ sách OCP Java SE 21 của Boyarsky &amp; Selikoff (modules)</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/SimonHGR/Java21CertStudy">SimonHGR/Java21CertStudy</a><span class="desc">Code demo từ khóa Crash Course của Simon Roberts (O'Reilly)</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/topics/javacertification">topics/javacertification</a><span class="desc">Topic tổng hợp nhiều repo liên quan Java Certification</span></span><span class="dom">github.com</span></li>
+    </ul>
+
+    <h3 class="sub">Tài liệu miễn phí</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://docs.oracle.com/en/java/javase/21/">Oracle Java Documentation</a></span><span class="dom">docs.oracle.com</span></li>
+      <li><span class="name"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/">Java SE 21 API Docs</a></span><span class="dom">docs.oracle.com</span></li>
+      <li><span class="name"><a href="https://openjdk.org/projects/jdk/21/">OpenJDK JEPs — Java 21 features</a></span><span class="dom">openjdk.org</span></li>
+      <li><span class="name"><a href="https://www.baeldung.com/">Baeldung — Java Tutorials</a></span><span class="dom">baeldung.com</span></li>
+      <li><span class="name"><a href="https://www.youtube.com/@Java.Brains">Java Brains — YouTube</a></span><span class="dom">youtube.com</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ §02 SQL ============ -->
+  <section id="s2">
+    <div class="folio">§ 02 — Chứng chỉ SQL</div>
+    <h2 class="sec-title">Oracle Database SQL Associate <span class="code">1Z0-071</span></h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Dễ nhất — nên thi đầu tiên để tạo momentum cho cả lộ trình.</p>
+
+    <div class="exam-meta">
+      <div><span class="num">63</span><span class="lab">Câu hỏi</span></div>
+      <div><span class="num">120</span><span class="lab">Phút</span></div>
+      <div><span class="num">63%</span><span class="lab">Ngưỡng đạt</span></div>
+      <div><span class="num">$245</span><span class="lab">Phí thi</span></div>
+      <div><span class="num sm">Trọn đời</span><span class="lab">Hiệu lực</span></div>
+    </div>
+
+    <h3 class="sub">Trang chính thức</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://education.oracle.com/oracle-database-sql/pexam_1Z0-071">Trang kỳ thi chính thức</a></span><span class="dom">education.oracle.com</span></li>
+      <li><span class="name"><a href="https://mylearn.oracle.com/ou/exam/oracle-database-sql-1z0-071/38560/110647/170369">Đăng ký thi trên MyLearn</a></span><span class="dom">mylearn.oracle.com</span></li>
+      <li><span class="name"><a href="https://www.oracle.com/education/training/buy/">Mua voucher thi</a></span><span class="dom">oracle.com</span></li>
+      <li><span class="name"><a href="https://www.dbexam.com/oracle/oracle-1z0-071-certification-exam-syllabus">Exam Syllabus &amp; Topics</a></span><span class="dom">dbexam.com</span></li>
+    </ul>
+
+    <h3 class="sub">Tài liệu học</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/Oracle-Database-Guide-1Z0-071-Press/dp/1259585492">OCA Oracle Database SQL Exam Guide (1Z0-071)</a><span class="desc">Steve O'Hearn</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/Study-Guide-1Z0-071-Database-Certification/dp/194140409X">Study Guide for 1Z0-071</a><span class="desc">Matthew Morris</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.udemy.com/course/oracle-sql-12c-become-an-sql-developer-with-subtitle/">Oracle SQL — Complete Introduction</a><span class="desc">Udemy</span></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.codecademy.com/learn/ext-paths/1z0-071-oracle-database-12c-sql">Codecademy — 1Z0-071 Prep Path</a></span><span class="dom">codecademy.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.whizlabs.com/oracle-database-sql-certified-associate-course/">Whizlabs — Oracle SQL Associate Course</a></span><span class="dom">whizlabs.com</span></li>
+    </ul>
+
+    <h3 class="sub">Practice Tests</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://www.udemy.com/course/oracle-database-sql-1z0-071-practice-exams/">Udemy — Oracle Database SQL 1Z0-071 Practice Exams</a></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><a href="https://www.dbexam.com/oracle/oracle-1z0-071-certification-sample-questions-and-answers">DBExam — Sample Questions</a><span class="desc">Miễn phí</span></span><span class="dom">dbexam.com</span></li>
+      <li><span class="name"><a href="https://www.whizlabs.com/oracle-database-sql-certified-associate-course/">Whizlabs — 1Z0-071 Practice Tests</a></span><span class="dom">whizlabs.com</span></li>
+    </ul>
+
+    <h3 class="sub">GitHub Repos</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag tag-blue">Repo chính</span><a href="https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate">chatelao/1z0-071_Oracle_Database_SQL_Associate</a><span class="desc">Đầy đủ + cập nhật mới, tổ chức theo folder từng exam topic</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/aamirpatel23/Oracle-Database-SQL-1Z0-071-Free-Dump-Questions">aamirpatel23/…-1Z0-071-Free-Dump-Questions</a><span class="desc">Câu hỏi mẫu (dump) miễn phí</span></span><span class="dom">github.com</span></li>
+    </ul>
+    <div class="note"><b>Đã xác minh 2026-06-22:</b> các repo <code>Lewotobi/1Z0-071_…</code> và <code>Zaanne/1Z0-071</code> đã bị xóa (404) — đã thay bằng <code>chatelao/…</code> ở trên.</div>
+
+    <h3 class="sub">Tài liệu miễn phí</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://livesql.oracle.com/">Oracle LiveSQL</a><span class="desc">Practice SQL online, không cần cài đặt</span></span><span class="dom">livesql.oracle.com</span></li>
+      <li><span class="name"><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/">Oracle SQL Documentation</a></span><span class="dom">docs.oracle.com</span></li>
+      <li><span class="name"><a href="https://www.oracle.com/database/technologies/xe-downloads.html">Oracle Database XE</a><span class="desc">Tải miễn phí để thực hành</span></span><span class="dom">oracle.com</span></li>
+      <li><span class="name"><a href="https://www.w3schools.com/sql/">W3Schools SQL Tutorial</a></span><span class="dom">w3schools.com</span></li>
+      <li><span class="name"><a href="https://sqlzoo.net/">SQLZoo Interactive</a></span><span class="dom">sqlzoo.net</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ §03 SPRING ============ -->
+  <section id="s3">
+    <div class="folio">§ 03 — Chứng chỉ Spring</div>
+    <h2 class="sec-title">Spring Certified Professional <span class="code">2V0-72.22</span></h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Thi cuối cùng — cần nền Java vững từ bước trước. Chấm theo thang điểm, không theo phần trăm.</p>
+
+    <div class="exam-meta">
+      <div><span class="num">60</span><span class="lab">Câu hỏi</span></div>
+      <div><span class="num">130</span><span class="lab">Phút</span></div>
+      <div><span class="num">300<span style="font-size:.6em;color:var(--ink2)">/500</span></span><span class="lab">Ngưỡng đạt</span></div>
+      <div><span class="num">$250</span><span class="lab">Phí thi</span></div>
+      <div><span class="num sm">Trọn đời</span><span class="lab">Hiệu lực</span></div>
+    </div>
+
+    <h3 class="sub">Trang chính thức</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://www.broadcom.com/support/education/vmware/certification/spring-certified-pro">Trang chứng chỉ chính thức — Broadcom</a></span><span class="dom">broadcom.com</span></li>
+      <li><span class="name"><a href="https://www.broadcom.com/support/education/software/certification/exams/spring-pro-develop-exam">Trang kỳ thi</a></span><span class="dom">broadcom.com</span></li>
+      <li><span class="name"><a href="https://spring.academy/">Spring Academy — khóa học chính thức</a></span><span class="dom">spring.academy</span></li>
+      <li><span class="name"><a href="https://spring.academy/learning-path">Spring Academy Learning Path</a></span><span class="dom">spring.academy</span></li>
+      <li><span class="name"><a href="https://www.credly.com/org/broadcom/badge/spring-certified-professional-2024">Credly Badge</a></span><span class="dom">credly.com</span></li>
+    </ul>
+
+    <h3 class="sub">Tài liệu học</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/Spring-Action-Sixth-Craig-Walls/dp/1617297577">Spring in Action — 6th Ed</a><span class="desc">Craig Walls</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Sách</span><a href="https://www.amazon.com/Spring-Boot-Practice-Somnath-Musib/dp/1617298816">Spring Boot in Practice</a><span class="desc">Somnath Musib</span></span><span class="dom">amazon.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://spring.academy/">Spring Academy</a><span class="desc">Chính thức · 1 phần miễn phí</span></span><span class="dom">spring.academy</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.udemy.com/course/spring-certified-tutorial/">Udemy — Spring Professional Exam Tutorial</a></span><span class="dom">udemy.com</span></li>
+      <li><span class="name"><span class="tag">Khóa học</span><a href="https://www.udemy.com/course/spring-hibernate-tutorial/">Udemy — Spring &amp; Hibernate for Beginners</a><span class="desc">Chad Darby</span></span><span class="dom">udemy.com</span></li>
+    </ul>
+
+    <h3 class="sub">Practice Tests</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://www.whizlabs.com/vmware-certified-spring-professional/">Whizlabs — VMware Spring Professional</a></span><span class="dom">whizlabs.com</span></li>
+      <li><span class="name"><span class="tag">Udemy</span><span class="plain">Spring Professional Practice Tests</span><span class="desc">Tìm trên Udemy với keyword <code>Spring Professional 2V0-72.22</code></span></span><span class="dom">udemy.com</span></li>
+    </ul>
+
+    <h3 class="sub">GitHub Repos</h3>
+    <ul class="reflist">
+      <li><span class="name"><span class="tag tag-blue">Khuyên dùng</span><a href="https://github.com/davidarchanjo/spring-certified-developer-study-guide">davidarchanjo/spring-certified-developer-study-guide</a><span class="desc">143 stars · study guide cực kỳ chi tiết, có cả official study guide PDF</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/MrR0807/SpringCertification5.0">MrR0807/SpringCertification5.0</a><span class="desc">Notes chi tiết theo từng câu hỏi trong official study guide</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/seanjgildea/CoreSpring5CertificationGuide">seanjgildea/CoreSpring5CertificationGuide</a><span class="desc">Hướng dẫn + tips thi thực tế từ người đã thi</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/bachnxhedspi/spring-core-cert-notes-5.0">bachnxhedspi/spring-core-cert-notes-5.0</a><span class="desc">Trả lời đầy đủ câu hỏi trong Pivotal Study Guide</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/aketza-ayo/spring5-cert-study-notes">aketza-ayo/spring5-cert-study-notes</a><span class="desc">Notes + code ví dụ theo từng module</span></span><span class="dom">github.com</span></li>
+      <li><span class="name"><a href="https://github.com/JavaZakariae/Spring5Certification">JavaZakariae/Spring5Certification</a><span class="desc">Đạt 88% · chia sẻ tài liệu + kinh nghiệm thi</span></span><span class="dom">github.com</span></li>
+    </ul>
+
+    <h3 class="sub">Tài liệu miễn phí</h3>
+    <ul class="reflist">
+      <li><span class="name"><a href="https://docs.spring.io/spring-framework/reference/">Spring Framework Documentation</a></span><span class="dom">docs.spring.io</span></li>
+      <li><span class="name"><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/">Spring Boot Documentation</a></span><span class="dom">docs.spring.io</span></li>
+      <li><span class="name"><a href="https://www.baeldung.com/spring-tutorial">Baeldung — Spring Tutorials</a><span class="desc">Rất tốt</span></span><span class="dom">baeldung.com</span></li>
+      <li><span class="name"><a href="https://spring.io/guides">Spring Guides — official</a></span><span class="dom">spring.io</span></li>
+      <li><span class="name"><a href="https://github.com/spring-projects/spring-framework">Spring GitHub Samples</a></span><span class="dom">github.com</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ §04 TOP REPOS ============ -->
+  <section id="s4">
+    <div class="folio">§ 04 — Khởi động</div>
+    <h2 class="sec-title">Top 3 repos phải clone ngay</h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Mỗi chứng chỉ một repo nền tảng — clone về máy để tra cứu và thực hành ngay từ buổi đầu.</p>
+
+    <div class="code-block">
+<span class="cmd">git clone</span> <a href="https://github.com/eh3rrera/ocpj21-book">https://github.com/eh3rrera/ocpj21-book.git</a>
+<span class="cmd">git clone</span> <a href="https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate">https://github.com/chatelao/1z0-071_Oracle_Database_SQL_Associate.git</a>
+<span class="cmd">git clone</span> <a href="https://github.com/davidarchanjo/spring-certified-developer-study-guide">https://github.com/davidarchanjo/spring-certified-developer-study-guide.git</a>
+    </div>
+  </section>
+
+  <!-- ============ §05 LỘ TRÌNH ============ -->
+  <section id="s5">
+    <div class="folio">§ 05 — Kế hoạch</div>
+    <h2 class="sec-title">Lộ trình gợi ý — 12–15 tháng</h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Thứ tự học theo độ khó tăng dần: SQL tạo đà → Java cốt lõi → Spring khép lại. (Khác với thứ tự trình bày tài liệu ở trên.)</p>
+
+    <ol class="timeline">
+      <li>
+        <div class="tl-when">Tháng 1–3</div>
+        <div class="tl-body">
+          <div class="tl-cert">1Z0-071 · SQL Associate</div>
+          <p>Dễ nhất — học &amp; thi trước để tạo momentum cho cả hành trình.</p>
+        </div>
+      </li>
+      <li>
+        <div class="tl-when">Tháng 4–9</div>
+        <div class="tl-body">
+          <div class="tl-cert">1Z0-830 · Java SE 21</div>
+          <p>Khó nhất — cần nhiều thời gian nhất, chiếm trọn nửa lộ trình.</p>
+        </div>
+      </li>
+      <li>
+        <div class="tl-when">Tháng 10–13</div>
+        <div class="tl-body">
+          <div class="tl-cert">2V0-72.22 · Spring Professional</div>
+          <p>Cần nền Java vững từ bước trước — học sau cùng là hợp lý.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ §06 CHI PHÍ ============ -->
+  <section id="s6">
+    <div class="folio">§ 06 — Ngân sách</div>
+    <h2 class="sec-title">Tổng chi phí</h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Phí thi cố định ~$740; tài liệu dao động ~$160 nếu tận dụng sale và nguồn miễn phí.</p>
+
+    <table class="ledger">
+      <thead>
+        <tr><th>Chứng chỉ</th><th class="n">Phí thi</th><th class="n">Tài liệu</th><th class="n">Tổng</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1Z0-071 · SQL</td><td class="n">$245</td><td class="n">~$50–65</td><td class="n">~$300</td></tr>
+        <tr><td>1Z0-830 · Java</td><td class="n">$245</td><td class="n">~$60–75</td><td class="n">~$310</td></tr>
+        <tr><td>Spring Pro</td><td class="n">$250</td><td class="n">~$40–70</td><td class="n">~$300</td></tr>
+        <tr class="total"><td>Tổng cộng</td><td class="n">$740</td><td class="n">~$160</td><td class="n">~$900</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ §07 MẸO ============ -->
+  <section id="s7">
+    <div class="folio">§ 07 — Tối ưu chi phí</div>
+    <h2 class="sec-title">Mẹo tiết kiệm</h2>
+    <div class="sec-rule"></div>
+
+    <ul class="tips">
+      <li>Mua khóa <b>Udemy khi sale</b> ($9.9 – $14.99 thay vì $80+).</li>
+      <li>Tận dụng <b>tài liệu miễn phí</b> từ Oracle, Spring docs và Baeldung.</li>
+      <li>Theo dõi <b>Oracle Race to Certification</b> — đôi khi có voucher miễn phí.</li>
+      <li>Dùng <b>Oracle LiveSQL</b> và <b>Oracle XE</b> để thực hành SQL không tốn tiền.</li>
+      <li>Đăng ký <b>Spring Academy</b> để học khóa chính thức miễn phí.</li>
+    </ul>
+  </section>
+
+  <!-- ============ §08 QUẢN LÝ ============ -->
+  <section id="s8">
+    <div class="folio">§ 08 — Sau khi thi</div>
+    <h2 class="sec-title">Trang quản lý chứng chỉ</h2>
+    <div class="sec-rule"></div>
+    <p class="sec-lead">Nơi xem chứng chỉ, badge số và quản lý hồ sơ học tập sau khi đạt.</p>
+
+    <ul class="reflist">
+      <li><span class="name"><a href="https://brm-certification.oracle.com/">Oracle CertView</a><span class="desc">Xem chứng chỉ</span></span><span class="dom">brm-certification.oracle.com</span></li>
+      <li><span class="name"><a href="https://mylearn.oracle.com/">Oracle MyLearn</a></span><span class="dom">mylearn.oracle.com</span></li>
+      <li><span class="name"><a href="https://education.oracle.com/">Oracle Education</a></span><span class="dom">education.oracle.com</span></li>
+      <li><span class="name"><a href="https://www.broadcom.com/support/education/vmware/certification">Broadcom Certification Portal</a></span><span class="dom">broadcom.com</span></li>
+      <li><span class="name"><a href="https://www.credly.com/">Credly</a><span class="desc">Digital badges</span></span><span class="dom">credly.com</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ COLOPHON ============ -->
+  <footer class="colophon">
+    <div class="mark">§ · §</div>
+    <div class="rule"></div>
+    <p>Lộ trình ba chứng chỉ Oracle &amp; Spring · ~$900 · 12–15 tháng</p>
+    <p class="up">Cập nhật: 2026-06-22</p>
+  </footer>
+
+</div>
+</body>
+</html>

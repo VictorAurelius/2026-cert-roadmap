@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lộ Trình Học Từ Vựng Tiếng Anh Kỹ Thuật — Báo Cáo Trực Quan</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Be Vietnam Pro"', 'Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        colors: {
+          ink: '#0a0a0a',
+          paper: '#fafafa',
+          brand: '#4f46e5',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #fafafa; color: #18181b; -webkit-font-smoothing: antialiased; }
+  .fade-in { opacity: 0; transform: translateY(12px); animation: fadeUp .7s cubic-bezier(.22,.61,.36,1) forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .grain { background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.07) 1px, transparent 0); background-size: 22px 22px; }
+  table.vocab tbody tr:nth-child(odd) { background: #ffffff; }
+  table.vocab tbody tr:nth-child(even) { background: #f6f6f7; }
+  table.vocab tbody tr:hover { background: #eef2ff; }
+  .tag { font-feature-settings: "tnum"; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+  ::selection { background: #c7d2fe; }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- ░░░ HEADER ░░░ -->
+<header class="relative overflow-hidden bg-ink text-paper grain">
+  <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-indigo-600/30 blur-3xl"></div>
+  <div class="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl"></div>
+  <div class="relative mx-auto max-w-6xl px-6 py-14 md:py-20">
+    <div class="flex items-center gap-2 text-xs font-medium tracking-widest text-indigo-300 uppercase fade-in">
+      <span class="inline-block h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
+      Báo cáo trực quan · Plan học từ vựng
+    </div>
+    <h1 class="mt-4 max-w-3xl text-3xl font-extrabold leading-tight tracking-tight md:text-5xl fade-in" style="animation-delay:.05s">
+      Lộ Trình Học Từ Vựng<br><span class="text-indigo-400">Tiếng Anh Kỹ Thuật</span>
+    </h1>
+    <p class="mt-5 max-w-2xl text-base leading-relaxed text-zinc-300 md:text-lg fade-in" style="animation-delay:.1s">
+      Đọc hiểu tài liệu tiếng Anh (Oracle docs, Java docs, Spring docs, câu hỏi thi) mà
+      <span class="text-white font-medium">không cần tra từ điển liên tục</span> — phủ <span class="font-mono text-indigo-300">81 thuật ngữ</span> chia theo 4 giai đoạn, bám đúng lộ trình ôn 3 chứng chỉ.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm fade-in" style="animation-delay:.15s">
+      <div class="flex items-center gap-2 text-zinc-400">
+        <svg class="h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Khoảng thời gian: <span class="text-zinc-200 font-medium">Tháng 1 → Tháng 13</span> (song song lý thuyết)</span>
+      </div>
+      <div class="flex items-center gap-2 text-zinc-400">
+        <svg class="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Nguồn: <span class="text-zinc-200 font-medium">Plan học từ vựng</span> · <span class="font-mono text-xs">documents/idea.md</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="mx-auto max-w-6xl px-6">
+
+  <!-- ░░░ KPI CARDS ░░░ -->
+  <section class="-mt-10 relative z-10">
+    <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+
+      <div class="fade-in rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" style="animation-delay:.2s">
+        <div class="flex items-start justify-between">
+          <p class="text-xs font-medium text-zinc-500">Tổng từ vựng</p>
+          <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-semibold text-indigo-600">CORE</span>
+        </div>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-ink tag">81</p>
+        <p class="text-xs text-zinc-400">thuật ngữ kỹ thuật</p>
+        <div class="mt-3 h-10"><canvas id="spk1"></canvas></div>
+      </div>
+
+      <div class="fade-in rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" style="animation-delay:.25s">
+        <div class="flex items-start justify-between">
+          <p class="text-xs font-medium text-zinc-500">Giai đoạn</p>
+          <span class="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-600">PHASE</span>
+        </div>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-ink tag">4</p>
+        <p class="text-xs text-zinc-400">Chung → Java → SQL → Spring</p>
+        <div class="mt-3 h-10"><canvas id="spk2"></canvas></div>
+      </div>
+
+      <div class="fade-in rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" style="animation-delay:.3s">
+        <div class="flex items-start justify-between">
+          <p class="text-xs font-medium text-zinc-500">Chứng chỉ mục tiêu</p>
+          <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-600">GOAL</span>
+        </div>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-ink tag">3</p>
+        <p class="text-xs text-zinc-400">Oracle SQL · Java SE 21 · Spring</p>
+        <div class="mt-3 h-10"><canvas id="spk3"></canvas></div>
+      </div>
+
+      <div class="fade-in rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm" style="animation-delay:.35s">
+        <div class="flex items-start justify-between">
+          <p class="text-xs font-medium text-zinc-500">Nhịp học / ngày</p>
+          <span class="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-600">DAILY</span>
+        </div>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-ink tag">5</p>
+        <p class="text-xs text-zinc-400">từ mới · 15–20 phút</p>
+        <div class="mt-3 h-10"><canvas id="spk4"></canvas></div>
+      </div>
+
+      <div class="fade-in col-span-2 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm md:col-span-3 lg:col-span-1" style="animation-delay:.4s">
+        <div class="flex items-start justify-between">
+          <p class="text-xs font-medium text-zinc-500">Ôn cuối tuần</p>
+          <span class="rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-semibold text-rose-600">REVIEW</span>
+        </div>
+        <p class="mt-2 text-3xl font-extrabold tracking-tight text-ink tag">25–30</p>
+        <p class="text-xs text-zinc-400">từ/tuần qua flashcard Anki</p>
+        <div class="mt-3 h-10"><canvas id="spk5"></canvas></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ░░░ COLOR LEGEND ░░░ -->
+  <section class="mt-10">
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-xl border border-zinc-200 bg-white px-5 py-3 text-sm shadow-sm">
+      <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">Mã màu theo nhóm</span>
+      <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm" style="background:#64748b"></span> Chung (học thuật)</span>
+      <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm" style="background:#f59e0b"></span> Java SE 21</span>
+      <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm" style="background:#ef4444"></span> Oracle SQL</span>
+      <span class="flex items-center gap-2"><span class="h-3 w-3 rounded-sm" style="background:#22c55e"></span> Spring Framework</span>
+    </div>
+  </section>
+
+  <!-- ░░░ CHARTS ░░░ -->
+  <section class="mt-6 grid gap-6 lg:grid-cols-5">
+
+    <!-- Bar -->
+    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:col-span-3">
+      <div class="mb-1 flex items-baseline justify-between">
+        <h2 class="text-lg font-bold text-ink">Số từ vựng theo từng bảng học</h2>
+        <span class="font-mono text-xs text-zinc-400">5 nhóm</span>
+      </div>
+      <p class="mb-4 text-sm text-zinc-500">Mỗi cột = một bảng từ vựng trong plan; màu phân theo chứng chỉ liên quan.</p>
+      <div style="position:relative;height:280px"><canvas id="barChart"></canvas></div>
+    </div>
+
+    <!-- Doughnut -->
+    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:col-span-2">
+      <div class="mb-1 flex items-baseline justify-between">
+        <h2 class="text-lg font-bold text-ink">Phân bố theo chứng chỉ</h2>
+        <span class="font-mono text-xs text-zinc-400">81 từ</span>
+      </div>
+      <p class="mb-4 text-sm text-zinc-500">Java gộp Core + Collections/Streams.</p>
+      <div style="position:relative;height:280px"><canvas id="doughnutChart"></canvas></div>
+    </div>
+
+    <!-- Line cumulative -->
+    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm lg:col-span-5">
+      <div class="mb-1 flex items-baseline justify-between">
+        <h2 class="text-lg font-bold text-ink">Tích lũy từ vựng dọc theo lộ trình ôn thi</h2>
+        <span class="font-mono text-xs text-zinc-400">Tháng 1 → 13</span>
+      </div>
+      <p class="mb-4 text-sm text-zinc-500">Từ vựng học <span class="font-medium text-zinc-700">song song</span> với lý thuyết: Chung (đầu) → Oracle SQL (T1–3) → Java (T4–9) → Spring (T10–13).</p>
+      <div style="position:relative;height:260px"><canvas id="lineChart"></canvas></div>
+    </div>
+
+  </section>
+
+  <!-- ░░░ INSIGHTS ░░░ -->
+  <section class="mt-10">
+    <h2 class="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-zinc-500">
+      <span class="h-px w-6 bg-zinc-300"></span> Insight nhanh
+    </h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-xl border-l-4 border-rose-400 bg-white p-4 shadow-sm border-y border-r border-zinc-200">
+        <p class="text-sm leading-relaxed text-zinc-700">📚 <span class="font-semibold text-ink">Oracle SQL dày đặc nhất theo từng bảng</span> — 22 từ (27% tổng), xoay quanh <em>constraint</em>, <em>function</em> & <em>transaction</em>. May mắn là học sớm ngay giai đoạn tạo đà (T1–3).</p>
+      </div>
+      <div class="rounded-xl border-l-4 border-amber-400 bg-white p-4 shadow-sm border-y border-r border-zinc-200">
+        <p class="text-sm leading-relaxed text-zinc-700">☕ <span class="font-semibold text-ink">Java nặng nhất khi gộp theo cert</span> — 26 từ (32%) = 17 Core + 9 Collections/Streams. Khớp đúng việc Java là chặng khó & dài nhất (T4–9).</p>
+      </div>
+      <div class="rounded-xl border-l-4 border-indigo-400 bg-white p-4 shadow-sm border-y border-r border-zinc-200">
+        <p class="text-sm leading-relaxed text-zinc-700">🔁 <span class="font-semibold text-ink">Vài khái niệm lặp xuyên suốt 3 cert</span> — <em>transaction</em>, <em>propagation</em>, <em>scope</em>, <em>constraint</em>. Học một lần, gặp lại ở cả SQL, Java lẫn Spring → lãi kép.</p>
+      </div>
+      <div class="rounded-xl border-l-4 border-emerald-400 bg-white p-4 shadow-sm border-y border-r border-zinc-200">
+        <p class="text-sm leading-relaxed text-zinc-700">⏱️ <span class="font-semibold text-ink">5 từ/ngày phủ hết 81 từ trong ~16 ngày</span> — nhưng nên rải đều theo lý thuyết suốt 13 tháng để nhớ lâu, không nhồi một lần.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ DATA TABLES ░░░ -->
+  <section class="mt-12">
+    <h2 class="mb-1 text-2xl font-extrabold tracking-tight text-ink">Bộ từ vựng đầy đủ</h2>
+    <p class="mb-6 text-sm text-zinc-500">Toàn bộ 81 thuật ngữ — giữ nguyên tiếng Anh, nghĩa & ngữ cảnh tiếng Việt.</p>
+
+    <!-- Giai đoạn 1 -->
+    <div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 px-5 py-3.5" style="background:#64748b0d">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 rounded-full" style="background:#64748b"></span>
+          <h3 class="font-bold text-ink">Giai đoạn 1 — Từ vựng chung (học thuật)</h3>
+        </div>
+        <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-600 tag">15 từ · tuần đầu tiên</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="vocab w-full text-sm">
+          <thead class="sticky top-0 z-10 bg-zinc-50 text-left text-xs uppercase tracking-wider text-zinc-500">
+            <tr><th class="px-5 py-3 font-semibold">Từ</th><th class="px-5 py-3 font-semibold">Nghĩa</th><th class="px-5 py-3 font-semibold">Ghi chú / ngữ cảnh</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100">
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">deprecated</td><td class="px-5 py-2.5 text-zinc-700">đã lỗi thời, không nên dùng nữa</td><td class="px-5 py-2.5 text-zinc-500">Hay gặp trong Java docs</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">encapsulate</td><td class="px-5 py-2.5 text-zinc-700">đóng gói</td><td class="px-5 py-2.5 text-zinc-500">OOP concept</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">instantiate</td><td class="px-5 py-2.5 text-zinc-700">khởi tạo (instance của class)</td><td class="px-5 py-2.5 text-zinc-500"><code class="rounded bg-zinc-100 px-1 text-xs">new Object()</code></td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">invoke</td><td class="px-5 py-2.5 text-zinc-700">gọi (method)</td><td class="px-5 py-2.5 text-zinc-500">"invoke a method"</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">override</td><td class="px-5 py-2.5 text-zinc-700">ghi đè</td><td class="px-5 py-2.5 text-zinc-500">Kế thừa OOP</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">overload</td><td class="px-5 py-2.5 text-zinc-700">nạp chồng</td><td class="px-5 py-2.5 text-zinc-500">Nhiều method cùng tên</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">polymorphism</td><td class="px-5 py-2.5 text-zinc-700">tính đa hình</td><td class="px-5 py-2.5 text-zinc-500">OOP</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">inheritance</td><td class="px-5 py-2.5 text-zinc-700">tính kế thừa</td><td class="px-5 py-2.5 text-zinc-500">OOP</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">abstraction</td><td class="px-5 py-2.5 text-zinc-700">tính trừu tượng</td><td class="px-5 py-2.5 text-zinc-500">OOP</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">constraint</td><td class="px-5 py-2.5 text-zinc-700">ràng buộc</td><td class="px-5 py-2.5 text-zinc-500">SQL</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">aggregate</td><td class="px-5 py-2.5 text-zinc-700">tổng hợp</td><td class="px-5 py-2.5 text-zinc-500">GROUP BY, COUNT…</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">retrieve</td><td class="px-5 py-2.5 text-zinc-700">lấy dữ liệu</td><td class="px-5 py-2.5 text-zinc-500">SELECT</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">transaction</td><td class="px-5 py-2.5 text-zinc-700">giao dịch</td><td class="px-5 py-2.5 text-zinc-500">COMMIT/ROLLBACK</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">propagation</td><td class="px-5 py-2.5 text-zinc-700">lan truyền</td><td class="px-5 py-2.5 text-zinc-500">Spring @Transactional</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-indigo-700">scope</td><td class="px-5 py-2.5 text-zinc-700">phạm vi</td><td class="px-5 py-2.5 text-zinc-500">Bean scope, variable scope</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Giai đoạn 2 - Java Core -->
+    <div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 px-5 py-3.5" style="background:#f59e0b0f">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 rounded-full" style="background:#f59e0b"></span>
+          <h3 class="font-bold text-ink">Giai đoạn 2 — Java SE 21 · Core</h3>
+        </div>
+        <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 tag">17 từ</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="vocab w-full text-sm">
+          <thead class="sticky top-0 z-10 bg-zinc-50 text-left text-xs uppercase tracking-wider text-zinc-500">
+            <tr><th class="px-5 py-3 font-semibold">Từ / Cụm từ</th><th class="px-5 py-3 font-semibold">Nghĩa tiếng Việt</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100">
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">compile-time</td><td class="px-5 py-2.5 text-zinc-700">lúc biên dịch</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">runtime</td><td class="px-5 py-2.5 text-zinc-700">lúc chạy chương trình</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">heap / stack</td><td class="px-5 py-2.5 text-zinc-700">vùng nhớ heap / stack</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">garbage collection</td><td class="px-5 py-2.5 text-zinc-700">thu gom rác (quản lý bộ nhớ)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">autoboxing / unboxing</td><td class="px-5 py-2.5 text-zinc-700">tự động đóng hộp / mở hộp kiểu dữ liệu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">widening / narrowing conversion</td><td class="px-5 py-2.5 text-zinc-700">mở rộng / thu hẹp kiểu dữ liệu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">checked exception</td><td class="px-5 py-2.5 text-zinc-700">ngoại lệ được kiểm tra (phải khai báo)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">unchecked exception</td><td class="px-5 py-2.5 text-zinc-700">ngoại lệ không kiểm tra (RuntimeException)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">functional interface</td><td class="px-5 py-2.5 text-zinc-700">interface chỉ có 1 abstract method</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">lambda expression</td><td class="px-5 py-2.5 text-zinc-700">biểu thức lambda (hàm ẩn danh)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">method reference</td><td class="px-5 py-2.5 text-zinc-700">tham chiếu phương thức (<code class="rounded bg-zinc-100 px-1 text-xs">::</code>)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">sealed class</td><td class="px-5 py-2.5 text-zinc-700">class được niêm phong (giới hạn class con)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">record</td><td class="px-5 py-2.5 text-zinc-700">kiểu dữ liệu bất biến đơn giản</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">pattern matching</td><td class="px-5 py-2.5 text-zinc-700">so khớp mẫu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">text block</td><td class="px-5 py-2.5 text-zinc-700">khối văn bản nhiều dòng</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">virtual thread</td><td class="px-5 py-2.5 text-zinc-700">luồng ảo (Project Loom, Java 21)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">structured concurrency</td><td class="px-5 py-2.5 text-zinc-700">đồng thời có cấu trúc</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Giai đoạn 2 - Collections & Streams -->
+    <div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 px-5 py-3.5" style="background:#f59e0b0f">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 rounded-full" style="background:#f59e0b"></span>
+          <h3 class="font-bold text-ink">Giai đoạn 2 — Java SE 21 · Collections &amp; Streams</h3>
+        </div>
+        <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700 tag">9 từ</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="vocab w-full text-sm">
+          <thead class="sticky top-0 z-10 bg-zinc-50 text-left text-xs uppercase tracking-wider text-zinc-500">
+            <tr><th class="px-5 py-3 font-semibold">Từ / Cụm từ</th><th class="px-5 py-3 font-semibold">Nghĩa tiếng Việt</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100">
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">iterate / iteration</td><td class="px-5 py-2.5 text-zinc-700">duyệt qua / lần lặp</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">element</td><td class="px-5 py-2.5 text-zinc-700">phần tử</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">terminal operation</td><td class="px-5 py-2.5 text-zinc-700">thao tác kết thúc stream</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">intermediate operation</td><td class="px-5 py-2.5 text-zinc-700">thao tác trung gian stream</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">lazy evaluation</td><td class="px-5 py-2.5 text-zinc-700">đánh giá lười (chỉ thực thi khi cần)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">predicate</td><td class="px-5 py-2.5 text-zinc-700">vị từ / điều kiện (trả về boolean)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">consumer</td><td class="px-5 py-2.5 text-zinc-700">tiêu thụ (nhận giá trị, không trả về)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">supplier</td><td class="px-5 py-2.5 text-zinc-700">cung cấp (không nhận, trả về giá trị)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-amber-700">collector</td><td class="px-5 py-2.5 text-zinc-700">bộ thu gom (gom stream thành collection)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Giai đoạn 3 - Oracle SQL -->
+    <div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 px-5 py-3.5" style="background:#ef44440d">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 rounded-full" style="background:#ef4444"></span>
+          <h3 class="font-bold text-ink">Giai đoạn 3 — Oracle SQL</h3>
+        </div>
+        <span class="rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold text-rose-700 tag">22 từ · nhiều nhất</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="vocab w-full text-sm">
+          <thead class="sticky top-0 z-10 bg-zinc-50 text-left text-xs uppercase tracking-wider text-zinc-500">
+            <tr><th class="px-5 py-3 font-semibold">Từ / Cụm từ</th><th class="px-5 py-3 font-semibold">Nghĩa tiếng Việt</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100">
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">relational database</td><td class="px-5 py-2.5 text-zinc-700">cơ sở dữ liệu quan hệ</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">primary key</td><td class="px-5 py-2.5 text-zinc-700">khóa chính</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">foreign key</td><td class="px-5 py-2.5 text-zinc-700">khóa ngoại</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">unique constraint</td><td class="px-5 py-2.5 text-zinc-700">ràng buộc duy nhất</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">not null constraint</td><td class="px-5 py-2.5 text-zinc-700">ràng buộc không null</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">check constraint</td><td class="px-5 py-2.5 text-zinc-700">ràng buộc kiểm tra</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">index</td><td class="px-5 py-2.5 text-zinc-700">chỉ mục (tăng tốc truy vấn)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">join</td><td class="px-5 py-2.5 text-zinc-700">nối bảng</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">subquery</td><td class="px-5 py-2.5 text-zinc-700">truy vấn con</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">correlated subquery</td><td class="px-5 py-2.5 text-zinc-700">truy vấn con tương quan</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">aggregate function</td><td class="px-5 py-2.5 text-zinc-700">hàm tổng hợp (COUNT, SUM…)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">scalar function</td><td class="px-5 py-2.5 text-zinc-700">hàm vô hướng (trả về 1 giá trị)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">partition</td><td class="px-5 py-2.5 text-zinc-700">phân vùng</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">window function</td><td class="px-5 py-2.5 text-zinc-700">hàm cửa sổ (OVER PARTITION BY)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">DDL (Data Definition Language)</td><td class="px-5 py-2.5 text-zinc-700">ngôn ngữ định nghĩa dữ liệu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">DML (Data Manipulation Language)</td><td class="px-5 py-2.5 text-zinc-700">ngôn ngữ thao tác dữ liệu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">DQL (Data Query Language)</td><td class="px-5 py-2.5 text-zinc-700">ngôn ngữ truy vấn dữ liệu</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">truncate</td><td class="px-5 py-2.5 text-zinc-700">xóa toàn bộ dữ liệu (không rollback được)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">rollback</td><td class="px-5 py-2.5 text-zinc-700">hoàn tác giao dịch</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">commit</td><td class="px-5 py-2.5 text-zinc-700">xác nhận giao dịch</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">sequence</td><td class="px-5 py-2.5 text-zinc-700">đối tượng tạo số tự động tăng</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-rose-700">synonym</td><td class="px-5 py-2.5 text-zinc-700">tên bí danh cho object</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Giai đoạn 4 - Spring -->
+    <div class="mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 px-5 py-3.5" style="background:#22c55e0d">
+        <div class="flex items-center gap-3">
+          <span class="h-2.5 w-2.5 rounded-full" style="background:#22c55e"></span>
+          <h3 class="font-bold text-ink">Giai đoạn 4 — Spring Framework</h3>
+        </div>
+        <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 tag">18 từ</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="vocab w-full text-sm">
+          <thead class="sticky top-0 z-10 bg-zinc-50 text-left text-xs uppercase tracking-wider text-zinc-500">
+            <tr><th class="px-5 py-3 font-semibold">Từ / Cụm từ</th><th class="px-5 py-3 font-semibold">Nghĩa tiếng Việt</th></tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100">
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">inversion of control (IoC)</td><td class="px-5 py-2.5 text-zinc-700">đảo ngược quyền kiểm soát</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">dependency injection (DI)</td><td class="px-5 py-2.5 text-zinc-700">tiêm phụ thuộc</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">application context</td><td class="px-5 py-2.5 text-zinc-700">ngữ cảnh ứng dụng (container Spring)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">bean</td><td class="px-5 py-2.5 text-zinc-700">đối tượng do Spring quản lý</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">bean definition</td><td class="px-5 py-2.5 text-zinc-700">định nghĩa cấu hình của bean</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">autowiring</td><td class="px-5 py-2.5 text-zinc-700">tự động ghép nối dependencies</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">aspect</td><td class="px-5 py-2.5 text-zinc-700">khía cạnh (AOP)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">pointcut</td><td class="px-5 py-2.5 text-zinc-700">điểm cắt (nơi áp dụng advice)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">advice</td><td class="px-5 py-2.5 text-zinc-700">lời khuyên (code chạy tại pointcut)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">join point</td><td class="px-5 py-2.5 text-zinc-700">điểm nối (nơi advice có thể được áp dụng)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">weaving</td><td class="px-5 py-2.5 text-zinc-700">dệt (quá trình áp dụng aspect)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">dispatcher servlet</td><td class="px-5 py-2.5 text-zinc-700">servlet điều phối (cổng vào MVC)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">auto-configuration</td><td class="px-5 py-2.5 text-zinc-700">tự động cấu hình</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">starter</td><td class="px-5 py-2.5 text-zinc-700">gói khởi động (spring-boot-starter-*)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">actuator</td><td class="px-5 py-2.5 text-zinc-700">cơ cấu chấp hành (monitoring endpoints)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">repository</td><td class="px-5 py-2.5 text-zinc-700">kho lưu trữ (tầng truy cập dữ liệu)</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">transaction management</td><td class="px-5 py-2.5 text-zinc-700">quản lý giao dịch</td></tr>
+            <tr><td class="px-5 py-2.5 font-mono font-medium text-emerald-700">propagation behavior</td><td class="px-5 py-2.5 text-zinc-700">hành vi lan truyền transaction</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ PHƯƠNG PHÁP HỌC ░░░ -->
+  <section class="mt-12">
+    <h2 class="mb-1 text-2xl font-extrabold tracking-tight text-ink">Phương pháp học từ vựng</h2>
+    <p class="mb-6 text-sm text-zinc-500">15–20 phút mỗi ngày, học song song với lý thuyết.</p>
+
+    <div class="grid gap-5 md:grid-cols-3">
+      <!-- Routine -->
+      <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center gap-2">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-indigo-50 text-indigo-600">🗓️</span>
+          <h3 class="font-bold text-ink">Mỗi ngày 15–20'</h3>
+        </div>
+        <ol class="space-y-3 text-sm text-zinc-600">
+          <li class="flex gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-indigo-600 text-[11px] font-bold text-white">1</span><span><span class="font-medium text-zinc-800">Đọc 5 từ mới</span> từ bảng phù hợp với giai đoạn đang học.</span></li>
+          <li class="flex gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-indigo-600 text-[11px] font-bold text-white">2</span><span>Dùng <code class="rounded bg-zinc-100 px-1 font-mono text-xs">/tu-vung [từ]</code> để Claude giải thích chi tiết hơn.</span></li>
+          <li class="flex gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-indigo-600 text-[11px] font-bold text-white">3</span><span>Gặp từ lạ khi đọc tài liệu → dùng <code class="rounded bg-zinc-100 px-1 font-mono text-xs">/tu-vung</code> ngay.</span></li>
+          <li class="flex gap-3"><span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-indigo-600 text-[11px] font-bold text-white">4</span><span><span class="font-medium text-zinc-800">Cuối tuần:</span> ôn lại 25–30 từ trong tuần, ghi vào flashcard.</span></li>
+        </ol>
+      </div>
+
+      <!-- Công cụ -->
+      <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center gap-2">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-amber-50 text-amber-600">🧰</span>
+          <h3 class="font-bold text-ink">Công cụ hỗ trợ</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-zinc-600">
+          <li><span class="font-semibold text-zinc-800">Anki</span> <span class="text-zinc-400">(free)</span> — flashcard từ vựng, học theo <em>spaced repetition</em>.</li>
+          <li><span class="font-semibold text-zinc-800">Claude</span> <code class="rounded bg-zinc-100 px-1 font-mono text-xs">/tu-vung</code> — giải thích chi tiết trong ngữ cảnh kỹ thuật.</li>
+          <li><span class="font-semibold text-zinc-800">Context reading</span> — đọc nguyên bản tiếng Anh, tra từ khi thực sự cần.</li>
+        </ul>
+      </div>
+
+      <!-- Nguyên tắc -->
+      <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center gap-2">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-emerald-50 text-emerald-600">🎯</span>
+          <h3 class="font-bold text-ink">Nguyên tắc</h3>
+        </div>
+        <ul class="space-y-3 text-sm text-zinc-600">
+          <li class="flex gap-2"><span class="text-emerald-500">▸</span> Ưu tiên hiểu <span class="font-medium text-zinc-800">nghĩa trong ngữ cảnh kỹ thuật</span>, không cần thuộc nghĩa từ điển.</li>
+          <li class="flex gap-2"><span class="text-emerald-500">▸</span> Học từ vựng <span class="font-medium text-zinc-800">song song với lý thuyết</span>, không tách riêng.</li>
+          <li class="flex gap-2"><span class="text-emerald-500">▸</span> Đề thi dùng <span class="font-medium text-zinc-800">ngôn ngữ gốc của tài liệu</span> — quen thuật ngữ gốc là lợi thế lớn.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ MỤC TIÊU ░░░ -->
+  <section class="mt-10">
+    <div class="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-6">
+      <div class="flex items-start gap-4">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-600 text-white">🎓</span>
+        <div>
+          <h3 class="font-bold text-indigo-900">Mục tiêu cuối cùng</h3>
+          <p class="mt-1 max-w-2xl text-sm leading-relaxed text-indigo-800/90">
+            Đọc hiểu tài liệu tiếng Anh (Oracle docs, Java docs, Spring docs, câu hỏi thi) mà không cần tra từ điển liên tục — biến 81 thuật ngữ từ "rào cản" thành "phản xạ", phục vụ trực tiếp cho 3 kỳ thi.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░░ METHODOLOGY (collapse) ░░░ -->
+  <section class="mt-8 mb-4">
+    <details class="rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      <summary class="flex items-center justify-between px-6 py-4">
+        <span class="flex items-center gap-2 font-semibold text-ink">
+          <svg class="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m-6 4h6m-6 4h4m5 5H5a2 2 0 01-2-2V5a2 2 0 012-2h9.586a1 1 0 01.707.293l4.414 4.414A1 1 0 0121 8.414V19a2 2 0 01-2 2z"/></svg>
+          Phương pháp luận &amp; cách đọc báo cáo
+        </span>
+        <svg class="chev h-5 w-5 text-zinc-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </summary>
+      <div class="border-t border-zinc-100 px-6 py-5 text-sm leading-relaxed text-zinc-600">
+        <dl class="grid gap-5 md:grid-cols-2">
+          <div>
+            <dt class="font-semibold text-zinc-800">Nguồn dữ liệu</dt>
+            <dd class="mt-1">Toàn bộ con số được trích trực tiếp từ <em>Plan: Học Từ Vựng Tiếng Anh Kỹ Thuật</em> — 5 bảng từ vựng + phần phương pháp. Không suy diễn ngoài tài liệu gốc.</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-zinc-800">Cách đếm</dt>
+            <dd class="mt-1">Mỗi dòng trong bảng = 1 mục từ. Các cụm đôi (vd. <span class="font-mono text-xs">heap / stack</span>, <span class="font-mono text-xs">autoboxing / unboxing</span>) tính là <strong>1</strong> mục theo đúng cách trình bày của plan. Tổng: 15 + 17 + 9 + 22 + 18 = <strong>81</strong>.</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-zinc-800">Gộp theo chứng chỉ</dt>
+            <dd class="mt-1">Java = Core (17) + Collections/Streams (9) = 26. "Chung" giữ riêng vì là từ học thuật nền, dùng chéo cả 3 cert.</dd>
+          </div>
+          <div>
+            <dt class="font-semibold text-zinc-800">Mốc thời gian biểu đồ tích lũy</dt>
+            <dd class="mt-1">Ánh xạ theo thứ tự ôn của repo: SQL (T1–3) → Java (T4–9) → Spring (T10–13); từ vựng "Chung" học ngay tuần đầu. Đường tích lũy minh họa nhịp, không phải lịch cứng.</dd>
+          </div>
+        </dl>
+        <p class="mt-5 border-t border-zinc-100 pt-4 text-xs text-zinc-400">
+          Báo cáo tạo tự động · dữ liệu giữ nguyên thuật ngữ tiếng Anh, diễn giải tiếng Việt · charts dựng bằng Chart.js.
+        </p>
+      </div>
+    </details>
+  </section>
+
+</main>
+
+<footer class="border-t border-zinc-200 bg-white">
+  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs text-zinc-400 md:flex-row">
+    <span>Repo Ôn Thi Chứng Chỉ · Lộ trình học từ vựng tiếng Anh kỹ thuật</span>
+    <span class="font-mono">81 từ · 4 giai đoạn · 3 chứng chỉ · ~16 ngày học</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const FONT = '"Be Vietnam Pro", Inter, sans-serif';
+  Chart.defaults.font.family = FONT;
+  Chart.defaults.color = '#71717a';
+  Chart.defaults.font.size = 12;
+
+  const C = { slate:'#64748b', amber:'#f59e0b', red:'#ef4444', green:'#22c55e', indigo:'#4f46e5' };
+
+  // ---- KPI sparklines ----
+  function spark(id, data, color) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    new Chart(el, {
+      type: 'line',
+      data: { labels: data.map((_, i) => i), datasets: [{
+        data, borderColor: color, borderWidth: 2, fill: true,
+        backgroundColor: (ctx) => {
+          const {ctx: c, chartArea} = ctx.chart;
+          if (!chartArea) return color + '22';
+          const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          g.addColorStop(0, color + '33'); g.addColorStop(1, color + '00');
+          return g;
+        },
+        tension: 0.4, pointRadius: 0,
+      }]},
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: { x: { display: false }, y: { display: false } },
+        elements: { line: { borderJoinStyle: 'round' } },
+      },
+    });
+  }
+  spark('spk1', [15, 32, 41, 63, 81], C.indigo);   // tích lũy tổng
+  spark('spk2', [1, 2, 2, 3, 4], C.slate);          // số bảng đã mở
+  spark('spk3', [1, 1, 2, 2, 3], C.green);          // cert tiếp cận
+  spark('spk4', [5, 5, 5, 5, 5], C.amber);          // nhịp đều
+  spark('spk5', [26, 28, 25, 30, 27], C.red);       // ôn cuối tuần
+
+  // ---- Bar: words per table ----
+  new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: [['Chung','(học thuật)'], ['Java','Core'], ['Java Collections','& Streams'], ['Oracle','SQL'], ['Spring','Framework']],
+      datasets: [{
+        label: 'Số từ',
+        data: [15, 17, 9, 22, 18],
+        backgroundColor: [C.slate, C.amber, C.amber, C.red, C.green],
+        borderRadius: 8, borderSkipped: false, maxBarThickness: 64,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ' ' + c.parsed.y + ' từ' } },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: { beginAtZero: true, grid: { color: '#f1f1f4' }, border: { display: false }, ticks: { stepSize: 5 } },
+      },
+    },
+  });
+
+  // ---- Doughnut: per cert ----
+  new Chart(document.getElementById('doughnutChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Chung (học thuật)', 'Java SE 21', 'Oracle SQL', 'Spring'],
+      datasets: [{
+        data: [15, 26, 22, 18],
+        backgroundColor: [C.slate, C.amber, C.red, C.green],
+        borderColor: '#ffffff', borderWidth: 3, hoverOffset: 8,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle', padding: 14, font: { size: 11 } } },
+        tooltip: { callbacks: { label: (c) => ' ' + c.label + ': ' + c.parsed + ' từ (' + Math.round(c.parsed / 81 * 100) + '%)' } },
+      },
+    },
+  });
+
+  // ---- Line: cumulative along roadmap ----
+  new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+      labels: ['Tuần đầu\n(Chung)', 'Tháng 1–3\n(Oracle SQL)', 'Tháng 4–9\n(Java SE 21)', 'Tháng 10–13\n(Spring)'],
+      datasets: [{
+        label: 'Tổng từ tích lũy',
+        data: [15, 37, 63, 81],
+        borderColor: C.indigo, borderWidth: 3,
+        backgroundColor: (ctx) => {
+          const {ctx: c, chartArea} = ctx.chart;
+          if (!chartArea) return 'rgba(79,70,229,0.12)';
+          const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          g.addColorStop(0, 'rgba(79,70,229,0.22)'); g.addColorStop(1, 'rgba(79,70,229,0)');
+          return g;
+        },
+        fill: true, tension: 0.35,
+        pointRadius: 5, pointBackgroundColor: '#ffffff', pointBorderColor: C.indigo, pointBorderWidth: 2.5,
+        pointHoverRadius: 7,
+      }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ' Đã tích lũy: ' + c.parsed.y + ' / 81 từ' } },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0, callback: function(v){ return this.getLabelForValue(v).split('\n'); } } },
+        y: { beginAtZero: true, suggestedMax: 90, grid: { color: '#f1f1f4' }, border: { display: false }, ticks: { stepSize: 20 } },
+      },
+    },
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kế Hoạch Học Hàng Tuần — Template ôn thi chứng chỉ</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: {
+  colors: { paper:'#f5f4ed', paper2:'#efeee5', ink:'#1f1d18', ink2:'#6b665b', inkblue:'#1B365D', hair:'#d4d1c5' },
+  fontFamily: { serif:['"Source Serif 4"','Charter','Georgia','serif'] },
+}}}
+</script>
+<style>
+  :root { color-scheme: light; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family:'Source Serif 4',Charter,Georgia,serif; background:#efeee5; color:#1f1d18; }
+  .mono { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.82em; }
+  .kicker { font-size:.68rem; letter-spacing:.24em; text-transform:uppercase; }
+  .chk { width:13px; height:13px; border:1.4px solid #1f1d18; display:inline-block; flex:none; }
+  .chk.blue { border-color:#1B365D; }
+  .fill { border-bottom:1px solid #d4d1c5; }
+  .ring1 { box-shadow:0 0 0 1px #d4d1c5; }
+  .tag { background:#1B365D; color:#f5f4ed; }
+  .tag-q { background:#efeee5; color:#6b665b; border:1px solid #d4d1c5; }
+  .lead-rule { border-left:2px solid #1B365D; }
+  .page { animation: fade .5s ease both; }
+  @keyframes fade { from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+  @media print {
+    body { background:#f5f4ed; }
+    .page { box-shadow:none; margin:0; max-width:none; }
+    .no-print { display:none; }
+    section { break-inside:avoid; }
+  }
+</style>
+</head>
+<body class="py-0 sm:py-10">
+
+<main class="page bg-paper ring1 mx-auto max-w-3xl px-7 sm:px-14 py-12 sm:py-16">
+
+  <!-- ░░ Masthead ░░ -->
+  <header>
+    <div class="flex items-baseline justify-between">
+      <span class="italic text-inkblue text-[15px]">Cert Roadmap</span>
+      <span class="kicker text-ink2">Living document</span>
+    </div>
+    <div class="mt-3 h-px bg-hair"></div>
+
+    <p class="kicker text-ink2 mt-10">Documents · Progress</p>
+    <h1 class="mt-4 text-[2.6rem] sm:text-[3.4rem] leading-[1.08] font-medium tracking-tight">
+      Kế Hoạch Học<br>Hàng Tuần
+    </h1>
+    <p class="mt-5 italic text-ink2 text-lg leading-snug">
+      Template tái sử dụng để lập kế hoạch và theo dõi tiến độ ôn ba chứng chỉ Oracle &amp; Spring.
+    </p>
+
+    <p class="mt-7 max-w-[62ch] text-[1.05rem] leading-[1.55] text-ink">
+      Đây là khung kế hoạch một tuần học. Mỗi tuần copy template thành một file riêng,
+      điền vào và tick dần checklist trong lúc học — coi như một tờ phiếu ôn tập được in ra,
+      không phải một bảng điều khiển. Phần cuối là bản đồ chủ đề tổng thể của cả ba kỳ thi
+      để bạn biết mình đang đứng ở đâu trên cả lộ trình.
+    </p>
+
+    <!-- metadata row -->
+    <div class="mt-9 grid grid-cols-2 sm:grid-cols-4 gap-y-5 gap-x-6 text-[0.92rem]">
+      <div>
+        <p class="kicker text-ink2">File</p>
+        <p class="mono text-inkblue mt-1">documents/progress/<wbr>tuan-[N].md</p>
+      </div>
+      <div>
+        <p class="kicker text-ink2">Loại tài liệu</p>
+        <p class="mt-1">Living doc · cập nhật liên tục</p>
+      </div>
+      <div>
+        <p class="kicker text-ink2">Lộ trình</p>
+        <p class="mt-1">12–15 tháng · 3 chứng chỉ</p>
+      </div>
+      <div>
+        <p class="kicker text-ink2">Ngân sách</p>
+        <p class="mt-1">≈ $900</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="mt-12 h-px bg-hair"></div>
+
+  <!-- ░░ Cách dùng ░░ -->
+  <section class="mt-12">
+    <div class="flex items-baseline gap-4">
+      <span class="kicker text-inkblue">§ 01</span>
+      <h2 class="text-2xl font-medium tracking-tight">Cách dùng</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+    <p class="mt-5 max-w-[62ch] text-[1.05rem] leading-[1.55]">
+      Copy template bên dưới vào file
+      <span class="mono text-inkblue">documents/progress/tuan-[N].md</span>,
+      điền tên tuần, chủ đề, mục tiêu — rồi theo dõi tiến độ bằng cách tick các ô vuông
+      trong suốt tuần học.
+    </p>
+  </section>
+
+  <div class="mt-12 h-px bg-hair"></div>
+
+  <!-- ░░ Ba chứng chỉ ░░ -->
+  <section class="mt-12">
+    <div class="flex items-baseline gap-4">
+      <span class="kicker text-inkblue">§ 02</span>
+      <h2 class="text-2xl font-medium tracking-tight">Ba chứng chỉ trong lộ trình</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+
+    <div class="mt-6 ring1 bg-paper2">
+      <table class="w-full text-[0.95rem] border-collapse">
+        <thead>
+          <tr class="text-left text-ink2">
+            <th class="kicker font-normal py-3 px-4 w-10">#</th>
+            <th class="kicker font-normal py-3 px-4">Mã thi</th>
+            <th class="kicker font-normal py-3 px-4">Chứng chỉ</th>
+            <th class="kicker font-normal py-3 px-4 text-right">Ngưỡng mock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-hair">
+            <td class="py-3 px-4 text-inkblue">1</td>
+            <td class="py-3 px-4 mono text-inkblue">1Z0-071</td>
+            <td class="py-3 px-4">Oracle Database SQL</td>
+            <td class="py-3 px-4 text-right">&gt; 75%</td>
+          </tr>
+          <tr class="border-t border-hair">
+            <td class="py-3 px-4 text-inkblue">2</td>
+            <td class="py-3 px-4 mono text-inkblue">1Z0-830</td>
+            <td class="py-3 px-4">Java SE 21 Developer</td>
+            <td class="py-3 px-4 text-right">&gt; 80%</td>
+          </tr>
+          <tr class="border-t border-hair">
+            <td class="py-3 px-4 text-inkblue">3</td>
+            <td class="py-3 px-4 mono text-inkblue">2V0-72.22</td>
+            <td class="py-3 px-4">Spring Certified Professional</td>
+            <td class="py-3 px-4 text-right">&gt; 65%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-[0.88rem] text-ink2 italic">
+      Thứ tự học: SQL trước (tạo đà) → Java (khó nhất) → Spring (cần nền Java).
+    </p>
+  </section>
+
+  <div class="mt-12 h-px bg-hair"></div>
+
+  <!-- ░░ Thông tin tuần ░░ -->
+  <section class="mt-12">
+    <div class="flex items-baseline gap-4">
+      <span class="kicker text-inkblue">§ 03</span>
+      <h2 class="text-2xl font-medium tracking-tight">Tuần [N] — [Tháng X, Năm Y]</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+
+    <p class="kicker text-ink2 mt-7">Thông tin tuần</p>
+    <div class="mt-4 space-y-5 text-[1.02rem]">
+
+      <div>
+        <span class="text-ink2">Chứng chỉ đang học</span>
+        <div class="mt-2 flex flex-wrap items-center gap-5">
+          <label class="flex items-center gap-2"><span class="chk blue"></span><span class="mono text-inkblue">1Z0-071</span></label>
+          <span class="text-hair">|</span>
+          <label class="flex items-center gap-2"><span class="chk blue"></span><span class="mono text-inkblue">1Z0-830</span></label>
+          <span class="text-hair">|</span>
+          <label class="flex items-center gap-2"><span class="chk blue"></span><span class="mono text-inkblue">2V0-72.22</span></label>
+        </div>
+      </div>
+
+      <div class="flex items-end gap-3">
+        <span class="text-ink2 shrink-0">Chủ đề tuần này</span>
+        <span class="flex-1 fill h-6"></span>
+      </div>
+      <div class="flex items-end gap-3">
+        <span class="text-ink2 shrink-0">Mục tiêu cụ thể</span>
+        <span class="flex-1 fill h-6"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="mt-12 h-px bg-hair"></div>
+
+  <!-- ░░ Kế hoạch từng ngày ░░ -->
+  <section class="mt-12">
+    <div class="flex items-baseline gap-4">
+      <span class="kicker text-inkblue">§ 04</span>
+      <h2 class="text-2xl font-medium tracking-tight">Kế hoạch từng ngày</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+
+    <!-- Thứ Hai -->
+    <article class="mt-9 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Hai</h3>
+        <span class="tag-q kicker px-2.5 py-1">Lý thuyết</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 01</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Chủ đề 1</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Chủ đề 2</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Từ vựng mới (5 từ)</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+
+    <!-- Thứ Ba -->
+    <article class="mt-8 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Ba</h3>
+        <span class="tag-q kicker px-2.5 py-1">Thực hành</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 02</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Bài tập / code / SQL</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Chạy thử</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+
+    <!-- Thứ Tư -->
+    <article class="mt-8 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Tư</h3>
+        <span class="tag-q kicker px-2.5 py-1">Lý thuyết</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 03</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Chủ đề 3</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Chủ đề 4</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Từ vựng mới (5 từ)</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+
+    <!-- Thứ Năm -->
+    <article class="mt-8 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Năm</h3>
+        <span class="tag-q kicker px-2.5 py-1">Thực hành</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 04</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Bài tập / code / SQL</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Review code trong repo cloned</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+
+    <!-- Thứ Sáu -->
+    <article class="mt-8 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Sáu</h3>
+        <span class="tag-q kicker px-2.5 py-1">Ôn tập tuần</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 05</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-center gap-3"><span class="chk"></span><span>Dùng <span class="mono text-inkblue">/on-tap [chủ đề 1]</span> với Claude</span></li>
+        <li class="flex items-center gap-3"><span class="chk"></span><span>Dùng <span class="mono text-inkblue">/on-tap [chủ đề 2]</span> với Claude</span></li>
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Ghi lại điểm chưa chắc</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+
+    <!-- Thứ Bảy — highlight -->
+    <article class="mt-8 pl-6" style="border-left:2px solid #1B365D">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Thứ Bảy</h3>
+        <span class="tag kicker px-2.5 py-1">Mock Exam</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 06</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-center gap-3"><span class="chk blue"></span><span>Dùng <span class="mono text-inkblue">/kiem-tra [chứng chỉ] 10</span> — làm 10 câu</span></li>
+        <li class="flex items-center gap-3">
+          <span class="text-ink2">Kết quả</span>
+          <span class="inline-flex items-baseline gap-1">
+            <span class="inline-block w-12 fill h-5 align-bottom"></span>
+            <span class="text-ink2">/ 10</span>
+          </span>
+        </li>
+        <li class="flex items-end gap-3"><span class="text-ink2 shrink-0">Câu sai (chủ đề)</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-end gap-3"><span class="text-ink2 shrink-0">Action items</span><span class="flex-1 fill h-5"></span></li>
+      </ul>
+    </article>
+
+    <!-- Chủ Nhật -->
+    <article class="mt-8 lead-rule pl-6">
+      <div class="flex items-baseline justify-between">
+        <h3 class="text-xl font-medium">Chủ Nhật</h3>
+        <span class="tag-q kicker px-2.5 py-1">Review &amp; Nghỉ</span>
+      </div>
+      <span class="kicker text-ink2">Ngày 07</span>
+      <ul class="mt-4 space-y-3 text-[1.02rem]">
+        <li class="flex items-end gap-3"><span class="chk mb-1"></span><span class="text-ink2 shrink-0">Viết tóm tắt tuần (3–5 bullet)</span><span class="flex-1 fill h-5"></span></li>
+        <li class="flex items-center gap-3"><span class="chk"></span><span>Cập nhật kế hoạch tuần sau</span></li>
+      </ul>
+      <div class="mt-4">
+        <span class="kicker text-ink2">Ghi chú</span>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-12"></div>
+      </div>
+    </article>
+  </section>
+
+  <div class="mt-12 h-px bg-hair"></div>
+
+  <!-- ░░ Tổng kết tuần ░░ -->
+  <section class="mt-12">
+    <div class="flex items-baseline gap-4">
+      <span class="kicker text-inkblue">§ 05</span>
+      <h2 class="text-2xl font-medium tracking-tight">Tổng kết tuần</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+
+    <div class="mt-6 flex items-baseline gap-3 text-[1.05rem]">
+      <span class="text-ink2">Hoàn thành</span>
+      <span class="inline-block w-16 fill h-6"></span>
+      <span class="text-ink2">% mục tiêu</span>
+    </div>
+
+    <div class="mt-7 grid sm:grid-cols-3 gap-6">
+      <div>
+        <p class="kicker text-inkblue">Điểm mạnh tuần này</p>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-24"></div>
+      </div>
+      <div>
+        <p class="kicker text-inkblue">Điểm yếu cần cải thiện</p>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-24"></div>
+      </div>
+      <div>
+        <p class="kicker text-inkblue">Kế hoạch tuần sau</p>
+        <div class="mt-2 notebox bg-paper2 border border-hair h-24"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mt-14 h-px bg-hair"></div>
+
+  <!-- ░░ Theo dõi tiến độ tổng thể ░░ -->
+  <section class="mt-12">
+    <p class="kicker text-ink2">Phụ lục</p>
+    <div class="flex items-baseline gap-4 mt-1">
+      <span class="kicker text-inkblue">§ 06</span>
+      <h2 class="text-2xl font-medium tracking-tight">Theo dõi tiến độ tổng thể</h2>
+    </div>
+    <div class="mt-3 w-16 h-px bg-inkblue"></div>
+    <p class="mt-5 max-w-[62ch] text-[1.02rem] leading-[1.55] text-ink2 italic">
+      Tick dần khi đã nắm chắc một chủ đề. Mỗi chứng chỉ kết thúc bằng một cột mốc:
+      mock exam đạt ngưỡng và giữ vững liên tục 3 lần.
+    </p>
+
+    <!-- 1Z0-071 -->
+    <div class="mt-8 ring1 bg-paper2 p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 class="text-lg font-medium flex items-baseline gap-3">
+          <span class="tag mono kicker px-2 py-1">1Z0-071</span> Oracle Database SQL
+        </h3>
+        <span class="kicker text-ink2">23 chủ đề · 1 cột mốc</span>
+      </div>
+      <ul class="mt-5 grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-[0.98rem]">
+        <li class="flex items-center gap-3"><span class="chk"></span>Relational Database concepts</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>SELECT statements cơ bản</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>WHERE, ORDER BY, FETCH</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Single-Row Functions (string)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Single-Row Functions (number, date)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Conversion Functions</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Group Functions (COUNT, SUM, AVG, MIN, MAX)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>GROUP BY và HAVING</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>INNER JOIN</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>OUTER JOIN (LEFT, RIGHT, FULL)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>CROSS JOIN và Natural JOIN</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Single-row subqueries</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Multi-row subqueries</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Correlated subqueries</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>UNION, INTERSECT, MINUS</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>CREATE / ALTER / DROP TABLE</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>INSERT, UPDATE, DELETE</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>MERGE</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Views</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Sequences</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Synonyms</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Indexes</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Constraints</li>
+      </ul>
+      <div class="mt-5 pt-4 border-t border-hair flex items-center gap-3 text-inkblue text-[0.98rem]">
+        <span class="chk blue"></span>
+        <span class="font-medium">Cột mốc — Mock exam &gt; 75% liên tục 3 lần</span>
+      </div>
+    </div>
+
+    <!-- 1Z0-830 -->
+    <div class="mt-8 ring1 bg-paper2 p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 class="text-lg font-medium flex items-baseline gap-3">
+          <span class="tag mono kicker px-2 py-1">1Z0-830</span> Java SE 21
+        </h3>
+        <span class="kicker text-ink2">25 chủ đề · 1 cột mốc</span>
+      </div>
+      <ul class="mt-5 grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-[0.98rem]">
+        <li class="flex items-center gap-3"><span class="chk"></span>Data Types và Variables</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Operators và Expressions</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Control Flow (if, switch, loops)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>OOP: Classes, Objects</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>OOP: Inheritance và Polymorphism</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>OOP: Interfaces và Abstract Classes</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Enums</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Records</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Sealed Classes</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Generics</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Collections Framework</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Lambda Expressions</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Functional Interfaces</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Stream API</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Optional</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Pattern Matching</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Text Blocks</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Date/Time API</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Exception Handling</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Java I/O (Files, Paths)</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Java Module System</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Concurrency basics</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>ExecutorService và Future</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Virtual Threads</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Localization</li>
+      </ul>
+      <div class="mt-5 pt-4 border-t border-hair flex items-center gap-3 text-inkblue text-[0.98rem]">
+        <span class="chk blue"></span>
+        <span class="font-medium">Cột mốc — Mock exam &gt; 80% liên tục 3 lần</span>
+      </div>
+    </div>
+
+    <!-- 2V0-72.22 -->
+    <div class="mt-8 ring1 bg-paper2 p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 class="text-lg font-medium flex items-baseline gap-3">
+          <span class="tag mono kicker px-2 py-1">2V0-72.22</span> Spring Professional
+        </h3>
+        <span class="kicker text-ink2">15 chủ đề · 1 cột mốc</span>
+      </div>
+      <ul class="mt-5 grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-[0.98rem]">
+        <li class="flex items-center gap-3"><span class="chk"></span>IoC Container</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Bean Lifecycle</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Bean Scopes</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Dependency Injection</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>@Component và Stereotypes</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>@Configuration và @Bean</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring AOP</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring MVC</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>REST Controllers</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Boot Auto-Configuration</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Boot Actuator</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Data JPA</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Transactions</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Security basics</li>
+        <li class="flex items-center gap-3"><span class="chk"></span>Spring Testing</li>
+      </ul>
+      <div class="mt-5 pt-4 border-t border-hair flex items-center gap-3 text-inkblue text-[0.98rem]">
+        <span class="chk blue"></span>
+        <span class="font-medium">Cột mốc — Mock exam &gt; 65% liên tục 3 lần</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ Colophon ░░ -->
+  <footer class="mt-16 pt-6 border-t border-hair flex flex-wrap items-baseline justify-between gap-3 text-[0.85rem] text-ink2">
+    <span class="italic">Cert Roadmap · Kế hoạch học hàng tuần</span>
+    <span>Living document — cập nhật sau mỗi buổi học &amp; mock exam</span>
+    <span class="kicker">Cập nhật: 22 tháng 6, 2026</span>
+  </footer>
+
+</main>
+
+</body>
+</html>
